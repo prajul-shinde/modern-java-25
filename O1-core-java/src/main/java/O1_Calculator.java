@@ -3,7 +3,7 @@ import static java.lang.IO.readln;
 
 void main() {
 
-    println("===Simple Calculator===");
+    println("%-30s===Simple Calculator===".formatted(""));
     var num1 = Double.parseDouble(readln("Enter first number: "));
     var num2 = Double.parseDouble(readln("Enter second number: "));
     String operator = readln("Enter operator(+,-,*,/): ");
@@ -29,5 +29,5 @@ void main() {
     }
 
     if (isValidOp)
-        println("Result: %.2f %s %.2f = %.2f".formatted(num1, operator, num2, result));
+        println("%-30s Result: %.2f %s %.2f = %.2f".formatted("", num1, operator, num2, result));
 }
