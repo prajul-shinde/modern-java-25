@@ -26,7 +26,7 @@ void main() {
     println("Scientific:  " + scientific.format(num));
 
     ListProcessor<Integer, Integer> sum = list -> list.stream().mapToInt(Integer::intValue).sum();
-    
+
 }
 
 @FunctionalInterface
