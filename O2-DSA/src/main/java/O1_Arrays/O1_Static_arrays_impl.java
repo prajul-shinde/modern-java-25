@@ -16,8 +16,10 @@ class StaticArray {
     public void printArray() {
 
         println("Array length %d and capacity %d".formatted(length, capacity));
+        print("[");
         for (var i = 0; i < length; i++)
             print(arr[i] + " ");
+        print("]");
     }
 
     public void insertAtEnd(int number) {
