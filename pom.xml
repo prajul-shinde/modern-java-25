@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>O1-core-java</module>
+        <module>O2-DSA</module>
     </modules>
 
     <properties>
