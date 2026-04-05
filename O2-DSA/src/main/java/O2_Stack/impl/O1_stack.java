@@ -19,7 +19,7 @@ class ArrayStack {
     public int peek() {
         if (isEmpty())
             return -1;
-        return stack.get(size() - 1);
+        return stack.getLast();
     }
 
     private boolean isEmpty() {
@@ -29,7 +29,7 @@ class ArrayStack {
     public int pop() {
         if (isEmpty())
             return -1;
-        return stack.remove(size() - 1);
+        return stack.removeLast();
     }
 }
 
