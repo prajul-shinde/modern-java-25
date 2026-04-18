@@ -13,43 +13,28 @@ class StaticArray {
         this.length = 0;
     }
 
-    public void printArray() {
+    public void insertAtEnd(int element) {
+        if (length < capacity) {
+            arr[length] = element;
+            length++;
+        }
+    }
 
-        println("Array length %d and capacity %d".formatted(length, capacity));
+    public void printArray() {
         print("[");
         for (var i = 0; i < length; i++)
             print(arr[i] + " ");
         print("]");
     }
 
-    public void insertAtEnd(int number) {
-
-        if (length < capacity) {
-            arr[length] = number;
-            length++;
-        }
-    }
-
-    public void insertInMiddle(int index, int number) {
-        //  0 1 2 3   length = 4 we can insert at index 4 as long as it's less than capacity
+    public void insertInMiddle(int index, int element) {
         if (index >= 0 && index <= length && length < capacity) {
-            // shift elements to right
+            // move to right index 1 value = 15
+            // [10 , 20 , 30]
             for (var i = length - 1; i >= index; i--)
                 arr[i + 1] = arr[i];
-            arr[index] = number;
+            arr[index] = element;
             length++;
-        }
-    }
-
-    public void removeMiddle(int index) {
-
-        // 0 1 2 3 cannot remove from index 4 length is 4 that's why <
-        if (index >= 0 && index < length) {
-            // shift elements to left
-            for (var i = index; i < length; i++)
-                arr[i - 1] = arr[i];
-            length--;
-            arr[length] = 0;
         }
     }
 
@@ -57,6 +42,19 @@ class StaticArray {
         if (length > 0) {
             arr[length - 1] = 0;
             length--;
+        }
+    }
+
+    public void removeMiddle(int index) {
+        if (index >= 0 && index < length) {
+            // move to left
+            // [10 , 15, 20 , 30]
+            for (var i = index; i < length; i++) {
+                arr[i - 1] = arr[i];
+            }
+            length--;
+            arr[index] = 0;
+
         }
     }
 }

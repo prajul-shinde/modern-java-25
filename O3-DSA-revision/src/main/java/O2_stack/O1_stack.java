@@ -1,15 +1,14 @@
 import static java.lang.IO.println;
 
 class ArrayStack {
-
     private ArrayList<Integer> stack;
 
     public ArrayStack() {
         this.stack = new ArrayList<>();
     }
 
-    public void push(int n) {
-        stack.add(n);
+    public void push(int element) {
+        stack.add(element);
     }
 
     public int size() {
@@ -17,17 +16,13 @@ class ArrayStack {
     }
 
     public int peek() {
-        if (isEmpty())
+        if (stack.isEmpty())
             return -1;
-        return stack.getLast() ;
-    }
-
-    private boolean isEmpty() {
-        return stack.isEmpty();
+        return stack.getLast();
     }
 
     public int pop() {
-        if (isEmpty())
+        if (stack.isEmpty())
             return -1;
         return stack.removeLast();
     }
