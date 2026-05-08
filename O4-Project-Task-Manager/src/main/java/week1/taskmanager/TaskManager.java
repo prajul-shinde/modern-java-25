@@ -1,4 +1,4 @@
-package main.java.taskmanager;
+package main.java.week1.taskmanager;
 
 import java.util.ArrayList;
 
