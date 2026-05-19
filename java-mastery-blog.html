@@ -1,0 +1,2481 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Mastery — 8-Week Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+:root {
+  --bg: #0d0f14;
+  --surface: #131620;
+  --surface2: #1a1e2e;
+  --border: #252a3a;
+  --border2: #2e3450;
+  --text: #e8eaf2;
+  --text2: #8b90a8;
+  --text3: #555c7a;
+  --accent: #f97316;
+  --accent2: #fb923c;
+  --green: #22c55e;
+  --blue: #60a5fa;
+  --purple: #a78bfa;
+  --red: #f87171;
+  --yellow: #fbbf24;
+  --code-bg: #0a0c12;
+  --code-border: #1e2336;
+  --card-front: #161a28;
+  --card-back: #0f1a14;
+  --shadow: 0 4px 24px rgba(0,0,0,.5);
+  --radius: 10px;
+  --transition: 0.2s ease;
+}
+[data-theme="light"] {
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --surface2: #f0eeea;
+  --border: #e2dfd8;
+  --border2: #d4d0c8;
+  --text: #1a1814;
+  --text2: #5a5650;
+  --text3: #9a9690;
+  --accent: #d4520a;
+  --accent2: #e8651a;
+  --green: #16a34a;
+  --blue: #2563eb;
+  --purple: #7c3aed;
+  --red: #dc2626;
+  --yellow: #d97706;
+  --code-bg: #1a1814;
+  --code-border: #2a2620;
+  --card-front: #fffdf8;
+  --card-back: #f0fdf4;
+  --shadow: 0 4px 24px rgba(0,0,0,.12);
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* ── LAYOUT ── */
+.container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+/* ── TOP NAV ── */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  padding: 0 24px;
+}
+.topbar-inner {
+  max-width: 900px; margin: 0 auto;
+  display: flex; align-items: center; gap: 16px;
+  height: 60px;
+}
+.logo {
+  font-family: 'Fraunces', serif;
+  font-size: 18px; font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -.5px;
+  white-space: nowrap;
+}
+.logo span { color: var(--text); font-weight: 300; }
+.week-tabs {
+  display: flex; gap: 4px; overflow-x: auto;
+  scrollbar-width: none; flex: 1;
+}
+.week-tabs::-webkit-scrollbar { display: none; }
+.week-tab {
+  flex-shrink: 0;
+  background: none; border: none;
+  padding: 6px 12px; border-radius: 6px;
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  color: var(--text3); cursor: pointer;
+  transition: all var(--transition);
+}
+.week-tab:hover { color: var(--text2); background: var(--surface2); }
+.week-tab.active { color: var(--accent); background: var(--surface2); }
+.theme-btn {
+  flex-shrink: 0;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 6px 10px;
+  cursor: pointer; font-size: 16px;
+  transition: all var(--transition);
+}
+.theme-btn:hover { border-color: var(--accent); }
+
+/* ── HERO ── */
+.hero {
+  padding: 80px 24px 60px;
+  max-width: 900px; margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px; letter-spacing: 3px;
+  color: var(--accent); text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 800; line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 20px;
+}
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero-sub {
+  font-size: 17px; color: var(--text2);
+  max-width: 560px; margin-bottom: 32px;
+}
+.hero-rule {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 15px; color: var(--text3);
+  border-left: 3px solid var(--accent);
+  padding-left: 16px; margin-bottom: 32px;
+}
+.hero-stats {
+  display: flex; gap: 32px; flex-wrap: wrap;
+}
+.stat { display: flex; flex-direction: column; }
+.stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: 32px; font-weight: 800; color: var(--accent);
+  line-height: 1;
+}
+.stat-label { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+/* ── WEEK SECTION ── */
+.week-section { display: none; }
+.week-section.active { display: block; }
+
+/* ── STUDY GUIDE SECTION ── */
+.study-section {
+  padding: 48px 24px;
+  max-width: 900px; margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+}
+.section-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 32px;
+}
+.section-badge {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  padding: 4px 10px; border-radius: 20px;
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--accent); letter-spacing: 1px; text-transform: uppercase;
+}
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 700; letter-spacing: -1px;
+}
+.section-divider {
+  height: 2px; flex: 1;
+  background: linear-gradient(to right, var(--border), transparent);
+}
+
+/* ── TOPIC CARDS ── */
+.topic {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: border-color var(--transition);
+}
+.topic:hover { border-color: var(--border2); }
+.topic-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; cursor: pointer;
+  user-select: none;
+}
+.topic-header:hover { background: var(--surface2); }
+.topic-title-row { display: flex; align-items: center; gap: 12px; }
+.topic-num {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--accent); font-weight: 500;
+}
+.topic-name {
+  font-family: 'Fraunces', serif;
+  font-size: 17px; font-weight: 600; letter-spacing: -.3px;
+}
+.topic-chevron {
+  color: var(--text3); font-size: 12px;
+  transition: transform 0.2s;
+}
+.topic.open .topic-chevron { transform: rotate(180deg); }
+.topic-body { display: none; padding: 0 20px 20px; }
+.topic.open .topic-body { display: block; }
+
+/* ── WARMUPS ── */
+.warmup-list { list-style: none; margin: 0 0 20px; }
+.warmup-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px; color: var(--text2);
+}
+.warmup-list li:last-child { border-bottom: none; }
+.warmup-check {
+  width: 18px; height: 18px; flex-shrink: 0;
+  border: 2px solid var(--border2); border-radius: 4px;
+  margin-top: 2px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition);
+}
+.warmup-check.done {
+  background: var(--green); border-color: var(--green); color: white;
+  font-size: 10px;
+}
+
+/* ── CONCEPT CHECKS ── */
+.concept-section { margin-bottom: 20px; }
+.sub-label {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 12px;
+}
+.concept-list { list-style: none; counter-reset: q; }
+.concept-list li {
+  counter-increment: q;
+  display: flex; gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.concept-list li:last-child { border-bottom: none; }
+.concept-list li::before {
+  content: counter(q);
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--accent); font-weight: 500;
+  min-width: 20px; padding-top: 2px;
+}
+
+/* ── ANSWER REVEAL ── */
+.answer-block {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+.answer-toggle {
+  width: 100%; background: none; border: none;
+  padding: 10px 16px;
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  color: var(--text3); cursor: pointer;
+  text-align: left;
+  transition: color var(--transition);
+}
+.answer-toggle:hover { color: var(--accent); }
+.answer-toggle .icon { font-size: 10px; transition: transform 0.2s; }
+.answer-toggle.open .icon { transform: rotate(90deg); }
+.answer-content {
+  display: none; padding: 0 16px 16px;
+  border-top: 1px solid var(--border);
+}
+.answer-content.open { display: block; }
+.answer-content p, .answer-content li {
+  font-size: 14px; color: var(--text2); margin-bottom: 8px;
+}
+.answer-content strong { color: var(--text); }
+.answer-num {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--accent); font-weight: 600; margin-right: 6px;
+}
+
+/* ── CODE BLOCKS ── */
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  margin: 12px 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px; line-height: 1.6;
+  color: #c9d1d9;
+}
+code {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  background: var(--code-bg);
+  padding: 2px 6px; border-radius: 4px;
+  color: var(--accent2);
+}
+pre code { background: none; padding: 0; color: inherit; }
+
+/* Syntax highlight-ish colors */
+.kw { color: #ff7b72; }
+.ty { color: #79c0ff; }
+.str { color: #a5d6ff; }
+.cm { color: #6a737d; font-style: italic; }
+.fn { color: #d2a8ff; }
+.num { color: #f2cc60; }
+
+/* ── DRILLS ── */
+.drill-list { margin: 0; }
+.drill-item {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.drill-label {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; cursor: pointer;
+}
+.drill-label:hover { background: var(--surface); }
+.drill-badge {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  background: var(--accent); color: white;
+  padding: 2px 8px; border-radius: 4px;
+  flex-shrink: 0;
+}
+.drill-desc { font-size: 14px; color: var(--text2); flex: 1; }
+.drill-body { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); }
+.drill-item.open .drill-body { display: block; }
+
+/* ── ASSESSMENT SECTION ── */
+.assessment-section {
+  padding: 48px 24px;
+  max-width: 900px; margin: 0 auto;
+}
+.assessment-header {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.assessment-title {
+  font-family: 'Fraunces', serif;
+  font-size: 24px; font-weight: 700;
+  letter-spacing: -.5px; margin-bottom: 8px;
+}
+.assessment-meta { font-size: 14px; color: var(--text2); }
+.assessment-rules {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+.assessment-rules p { font-size: 14px; color: var(--text2); margin-bottom: 6px; }
+.assessment-rules p:last-child { margin-bottom: 0; }
+
+/* ── PART A THEORY ── */
+.theory-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px; overflow: hidden;
+}
+.theory-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.theory-badge {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  padding: 3px 10px; border-radius: 20px;
+  background: var(--purple); color: white; opacity: .85;
+}
+.theory-title {
+  font-family: 'Fraunces', serif; font-size: 18px;
+  font-weight: 600; flex: 1;
+}
+.marks-badge {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--text3);
+}
+.theory-body { padding: 20px; }
+.theory-q {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  display: flex; gap: 10px;
+}
+.theory-q:last-child { border-bottom: none; }
+.q-num {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--purple); font-weight: 500; min-width: 20px; padding-top: 2px;
+}
+.marks-tag {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: var(--text3); white-space: nowrap; padding-top: 3px;
+}
+
+/* ── CODING TASK ── */
+.coding-task {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px; overflow: hidden;
+}
+.coding-task-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.task-badge {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  padding: 3px 10px; border-radius: 20px;
+  background: var(--blue); color: white; opacity: .85;
+}
+.task-title {
+  font-family: 'Fraunces', serif; font-size: 18px;
+  font-weight: 600; flex: 1;
+}
+.time-badge {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--yellow);
+  background: rgba(251,191,36,.1); border: 1px solid rgba(251,191,36,.2);
+  padding: 3px 10px; border-radius: 20px;
+  white-space: nowrap;
+}
+.coding-task-body { padding: 20px; }
+.task-desc { font-size: 14px; color: var(--text2); margin-bottom: 16px; }
+.task-requirements { list-style: none; margin-bottom: 16px; }
+.task-requirements li {
+  font-size: 14px; color: var(--text2);
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+  display: flex; gap: 8px;
+}
+.task-requirements li:last-child { border-bottom: none; }
+.req-dot { color: var(--accent); margin-top: 2px; }
+.marks-row {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  color: var(--text3); padding-top: 8px;
+}
+
+/* ── SCORE TABLE ── */
+.score-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.score-table th, .score-table td {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+.score-table th {
+  background: var(--surface2);
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  color: var(--text2); font-weight: 500;
+}
+.score-table tr:hover td { background: var(--surface2); }
+.score-table .total td { font-weight: 600; color: var(--accent); }
+
+/* ── RESULT BLOCK ── */
+.result-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px; margin-bottom: 32px;
+}
+.result-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.result-row:last-child { border-bottom: none; }
+.result-icon { font-size: 16px; }
+.result-text { color: var(--text2); }
+
+/* ── ANKI SECTION ── */
+.anki-section {
+  padding: 48px 24px;
+  max-width: 900px; margin: 0 auto;
+  border-top: 1px solid var(--border);
+}
+.anki-intro { font-size: 14px; color: var(--text2); margin-bottom: 24px; }
+.anki-deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.anki-card {
+  height: 180px;
+  perspective: 800px;
+  cursor: pointer;
+}
+.anki-inner {
+  width: 100%; height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+}
+.anki-card.flipped .anki-inner { transform: rotateY(180deg); }
+.anki-front, .anki-back {
+  position: absolute; inset: 0;
+  border-radius: var(--radius);
+  padding: 20px;
+  backface-visibility: hidden;
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+}
+.anki-front {
+  background: var(--card-front);
+  border: 1px solid var(--border2);
+}
+.anki-back {
+  background: var(--card-back);
+  border: 1px solid var(--green);
+  transform: rotateY(180deg);
+}
+.anki-tag {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text3);
+}
+.anki-front .anki-tag { color: var(--accent); }
+.anki-back .anki-tag { color: var(--green); }
+.anki-q {
+  font-family: 'Fraunces', serif;
+  font-size: 15px; font-weight: 600;
+  line-height: 1.4; color: var(--text);
+  flex: 1; padding: 8px 0;
+}
+.anki-a {
+  font-size: 13px; color: var(--text2);
+  line-height: 1.5; flex: 1; padding: 8px 0;
+}
+.anki-a code { font-size: 12px; }
+.anki-hint {
+  font-size: 11px; color: var(--text3);
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── PROJECT TASK ── */
+.project-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 20px 24px; margin: 24px 0;
+}
+.project-label {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  letter-spacing: 2px; color: var(--accent);
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.project-title {
+  font-family: 'Fraunces', serif; font-size: 18px;
+  font-weight: 600; margin-bottom: 8px;
+}
+.project-desc { font-size: 14px; color: var(--text2); margin-bottom: 12px; }
+.project-items { list-style: none; }
+.project-items li {
+  font-size: 14px; color: var(--text2);
+  padding: 5px 0; display: flex; gap: 8px;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-banner {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px; margin-bottom: 24px;
+}
+.progress-label {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  color: var(--text3); margin-bottom: 8px;
+}
+.progress-track {
+  height: 6px; background: var(--surface2);
+  border-radius: 3px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--accent), var(--accent2));
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+.progress-weeks {
+  display: flex; justify-content: space-between;
+  margin-top: 6px;
+}
+.progress-w {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: var(--text3);
+}
+
+/* ── WEEK NAV IN SECTION ── */
+.week-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 24px;
+  max-width: 900px; margin: 0 auto;
+  border-top: 1px solid var(--border);
+}
+.week-nav-btn {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 10px 20px; border-radius: 8px;
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  color: var(--text2); cursor: pointer;
+  transition: all var(--transition);
+  display: flex; align-items: center; gap: 8px;
+}
+.week-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+.week-nav-btn:disabled { opacity: .3; cursor: default; }
+.week-nav-btn:disabled:hover { border-color: var(--border); color: var(--text2); }
+.week-nav-center {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  color: var(--text3);
+}
+
+/* ── HOME SECTION ── */
+.home-section { display: block; }
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px; padding: 48px 24px;
+  max-width: 900px; margin: 0 auto;
+}
+.week-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px; cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none; color: inherit;
+}
+.week-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.week-card-num {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--accent); margin-bottom: 8px;
+}
+.week-card-title {
+  font-family: 'Fraunces', serif; font-size: 16px;
+  font-weight: 600; line-height: 1.3; margin-bottom: 8px;
+}
+.week-card-sub { font-size: 12px; color: var(--text3); }
+
+/* ── UTILITY ── */
+.divider { height: 1px; background: var(--border); margin: 24px 0; }
+.text-accent { color: var(--accent); }
+.text-mono { font-family: 'DM Mono', monospace; }
+.mb-4 { margin-bottom: 4px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+.gap-section { padding: 32px 0; }
+.pass-mark {
+  font-family: 'DM Mono', monospace; font-size: 14px;
+  color: var(--green); margin-top: 8px;
+}
+em { font-style: italic; }
+strong { font-weight: 600; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .hero { padding: 48px 16px 40px; }
+  .week-card-title { font-size: 14px; }
+  .hero-stats { gap: 20px; }
+  .stat-num { font-size: 24px; }
+}
+
+/* ── SMOOTH APPEAR ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.week-section.active { animation: fadeUp 0.3s ease; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topbar">
+  <div class="topbar-inner">
+    <div class="logo">Java<span>Mastery</span></div>
+    <div class="week-tabs">
+      <button class="week-tab active" onclick="showWeek('home')">Home</button>
+      <button class="week-tab" onclick="showWeek('w1')">W1</button>
+      <button class="week-tab" onclick="showWeek('w2')">W2</button>
+      <button class="week-tab" onclick="showWeek('w3')">W3</button>
+      <button class="week-tab" onclick="showWeek('w4')">W4</button>
+      <button class="week-tab" onclick="showWeek('w5')">W5</button>
+      <button class="week-tab" onclick="showWeek('w6')">W6</button>
+      <button class="week-tab" onclick="showWeek('w7')">W7</button>
+      <button class="week-tab" onclick="showWeek('w8')">W8</button>
+    </div>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ HOME ═══════════════════════════════ -->
+<section class="week-section home-section active" id="home">
+  <div class="hero">
+    <div class="hero-eyebrow">8-Week Curriculum</div>
+    <h1>Java <em>Mastery</em><br>Study Guide</h1>
+    <p class="hero-sub">Every concept, warm-up, concept check, drill, and weekly assessment. Structured to build real, lasting skill — not just recognition.</p>
+    <div class="hero-rule">"If you can't build it from a blank file, you don't know it yet."</div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">8</span><span class="stat-label">Weeks</span></div>
+      <div class="stat"><span class="stat-num">40+</span><span class="stat-label">Topics</span></div>
+      <div class="stat"><span class="stat-num">800</span><span class="stat-label">Total Marks</span></div>
+      <div class="stat"><span class="stat-num">70%</span><span class="stat-label">Pass Mark</span></div>
+    </div>
+  </div>
+
+  <div class="progress-banner container">
+    <div class="progress-label">CURRICULUM PROGRESS</div>
+    <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+    <div class="progress-weeks">
+      <span class="progress-w">W1</span><span class="progress-w">W2</span>
+      <span class="progress-w">W3</span><span class="progress-w">W4</span>
+      <span class="progress-w">W5</span><span class="progress-w">W6</span>
+      <span class="progress-w">W7</span><span class="progress-w">W8</span>
+    </div>
+  </div>
+
+  <div class="week-grid">
+    <div class="week-card" onclick="showWeek('w1')">
+      <div class="week-card-num">WEEK 01</div>
+      <div class="week-card-title">Syntax, IO & The Modern Runtime</div>
+      <div class="week-card-sub">Entry point, variables, text blocks, JVM</div>
+    </div>
+    <div class="week-card" onclick="showWeek('w2')">
+      <div class="week-card-num">WEEK 02</div>
+      <div class="week-card-title">OOP Pillars I & II</div>
+      <div class="week-card-sub">Encapsulation, Records, Inheritance</div>
+    </div>
+    <div class="week-card" onclick="showWeek('w3')">
+      <div class="week-card-num">WEEK 03</div>
+      <div class="week-card-title">Polymorphism, Abstraction & Generics</div>
+      <div class="week-card-sub">Interfaces, abstract classes, generics</div>
+    </div>
+    <div class="week-card" onclick="showWeek('w4')">
+      <div class="week-card-num">WEEK 04</div>
+      <div class="week-card-title">Collections, Optional & Time</div>
+      <div class="week-card-sub">HashMap, Optional, java.time</div>
+    </div>
+    <div class="week-card" onclick="showWeek('w5')">
+      <div class="week-card-num">WEEK 05</div>
+      <div class="week-card-title">Streams, Lambdas & Collectors</div>
+      <div class="week-card-sub">Functional pipelines, method refs</div>
+    </div>
+    <div class="week-card" onclick="showWeek('w6')">
+      <div class="week-card-num">WEEK 06</div>
+      <div class="week-card-title">Thread Safety & Concurrency</div>
+      <div class="week-card-sub">ConcurrentHashMap, AtomicInteger</div>
+    </div>
+    <div class="week-card" onclick="showWeek('w7')">
+      <div class="week-card-num">WEEK 07</div>
+      <div class="week-card-title">NIO.2, Modules & Architecture</div>
+      <div class="week-card-sub">File I/O, packages, design patterns</div>
+    </div>
+    <div class="week-card" onclick="showWeek('w8')">
+      <div class="week-card-num">WEEK 08</div>
+      <div class="week-card-title">Virtual Threads & Structured Concurrency</div>
+      <div class="week-card-sub">Project Loom, ScopedValues</div>
+    </div>
+  </div>
+
+  <div class="study-section">
+    <div class="section-header">
+      <span class="section-badge">How to Study</span>
+      <h2 class="section-title">The 4-Step Method</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:8px">STEP 01</div>
+        <div style="font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin-bottom:6px">Read</div>
+        <div style="font-size:13px;color:var(--text2)">Read that section in your weekly notes first.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:8px">STEP 02</div>
+        <div style="font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin-bottom:6px">Warm-ups</div>
+        <div style="font-size:13px;color:var(--text2)">Tiny tasks to get moving before you're "ready".</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:8px">STEP 03</div>
+        <div style="font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin-bottom:6px">Concept Checks</div>
+        <div style="font-size:13px;color:var(--text2)">Close notes. Write answers from memory.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:8px">STEP 04</div>
+        <div style="font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin-bottom:6px">Drills</div>
+        <div style="font-size:13px;color:var(--text2)">Blank file in IntelliJ. Type it from scratch. Make it run.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ WEEK 1 ═══════════════════════════════ -->
+<section class="week-section" id="w1">
+
+  <!-- STUDY GUIDE -->
+  <div class="study-section">
+    <div class="section-header">
+      <span class="section-badge">Week 1 · Study Guide</span>
+      <h2 class="section-title">Syntax, IO & The Modern Runtime</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <!-- Topic 1.1 -->
+    <div class="topic" id="t1_1">
+      <div class="topic-header" onclick="toggleTopic('t1_1')">
+        <div class="topic-title-row">
+          <span class="topic-num">1.1</span>
+          <span class="topic-name">The Entry Point (JEP 477)</span>
+        </div>
+        <span class="topic-chevron">▼</span>
+      </div>
+      <div class="topic-body">
+        <div class="sub-label">Warm-ups</div>
+        <ul class="warmup-list">
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Type the traditional main and run it: <code>public class Hello { public static void main(String[] args) { System.out.println("hi"); } }</code></li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Type the modern version: <code>void main() { println("hi"); }</code> — run it</li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Try <code>readln("Enter your name: ")</code> and print the name back</li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Try calling <code>println()</code> vs <code>System.out.println()</code> — confirm both work</li>
+        </ul>
+
+        <div class="concept-section">
+          <div class="sub-label">Concept Checks</div>
+          <ol class="concept-list">
+            <li>Why does traditional <code>main</code> need the <code>static</code> keyword?</li>
+            <li>What does <code>void</code> mean as a return type?</li>
+            <li>What is an unnamed class? When does <code>readln()</code> work?</li>
+            <li>When should you use traditional <code>main</code> vs modern <code>void main()</code>?</li>
+            <li>What are the 4 keywords in <code>public static void main(String[] args)</code> and why each one?</li>
+          </ol>
+          <div class="answer-block">
+            <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answers</button>
+            <div class="answer-content">
+              <p><span class="answer-num">1.</span> <code>static</code> is needed because the JVM calls <code>main</code> without creating an instance of the class — it must be callable on the class itself, not on an object.</p>
+              <p><span class="answer-num">2.</span> <code>void</code> means the method returns nothing — it does not produce a value back to the caller.</p>
+              <p><span class="answer-num">3.</span> An unnamed class is a top-level class with no explicit <code>class</code> declaration (JEP 477). <code>readln()</code> works only inside unnamed classes — it is a preview feature for simple programs.</p>
+              <p><span class="answer-num">4.</span> Use modern <code>void main()</code> for quick scripts, learning, and prototyping. Use traditional <code>public static void main(String[] args)</code> for production code, frameworks, and any multi-class project.</p>
+              <p><span class="answer-num">5.</span> <strong>public</strong> — accessible from anywhere (JVM needs to call it); <strong>static</strong> — called without creating an object; <strong>void</strong> — returns nothing; <strong>main</strong> — conventional name JVM looks for; <strong>String[] args</strong> — holds command-line arguments.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-label" style="margin-top:16px">Drills</div>
+        <div class="drill-list">
+          <div class="drill-item" id="d1_1_A">
+            <div class="drill-label" onclick="toggleDrill('d1_1_A')">
+              <span class="drill-badge">Drill A</span>
+              <span class="drill-desc">Modern void main() that reads first name + last name, prints formatted greeting</span>
+              <span class="topic-chevron">▼</span>
+            </div>
+            <div class="drill-body">
+<pre><code><span class="kw">void</span> <span class="fn">main</span>() {
+    <span class="ty">String</span> first = <span class="fn">readln</span>(<span class="str">"First name: "</span>);
+    <span class="ty">String</span> last  = <span class="fn">readln</span>(<span class="str">"Last name: "</span>);
+    <span class="fn">println</span>(<span class="str">"Hello, "</span> + first + <span class="str">" "</span> + last + <span class="str">"! Welcome to Java."</span>);
+}</code></pre>
+            </div>
+          </div>
+          <div class="drill-item" id="d1_1_B">
+            <div class="drill-label" onclick="toggleDrill('d1_1_B')">
+              <span class="drill-badge">Drill B</span>
+              <span class="drill-desc">Traditional main with Scanner — explain why scanner.close() matters</span>
+              <span class="topic-chevron">▼</span>
+            </div>
+            <div class="drill-body">
+<pre><code><span class="kw">import</span> java.util.Scanner;
+<span class="kw">public class</span> <span class="ty">Hello</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="ty">String</span>[] args) {
+        <span class="ty">Scanner</span> scanner = <span class="kw">new</span> <span class="ty">Scanner</span>(<span class="ty">System</span>.in);
+        <span class="ty">System</span>.out.<span class="fn">print</span>(<span class="str">"First name: "</span>);
+        <span class="ty">String</span> first = scanner.<span class="fn">nextLine</span>();
+        <span class="ty">System</span>.out.<span class="fn">print</span>(<span class="str">"Last name: "</span>);
+        <span class="ty">String</span> last = scanner.<span class="fn">nextLine</span>();
+        <span class="ty">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello, "</span> + first + <span class="str">" "</span> + last);
+        scanner.<span class="fn">close</span>(); <span class="cm">// Releases the InputStream resource; prevents resource leaks</span>
+    }
+}</code></pre>
+            </div>
+          </div>
+          <div class="drill-item" id="d1_1_C">
+            <div class="drill-label" onclick="toggleDrill('d1_1_C')">
+              <span class="drill-badge">Drill C</span>
+              <span class="drill-desc">Create Helper class with static greet() method. Call from void main()</span>
+              <span class="topic-chevron">▼</span>
+            </div>
+            <div class="drill-body">
+<pre><code><span class="cm">// Helper.java</span>
+<span class="kw">public class</span> <span class="ty">Helper</span> {
+    <span class="kw">public static void</span> <span class="fn">greet</span>(<span class="ty">String</span> name) {
+        <span class="ty">System</span>.out.<span class="fn">println</span>(<span class="str">"Greetings, "</span> + name + <span class="str">"!"</span>);
+    }
+}
+
+<span class="cm">// Main (unnamed class)</span>
+<span class="kw">void</span> <span class="fn">main</span>() {
+    <span class="ty">String</span> name = <span class="fn">readln</span>(<span class="str">"Enter your name: "</span>);
+    <span class="ty">Helper</span>.<span class="fn">greet</span>(name);
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic 1.2 -->
+    <div class="topic" id="t1_2">
+      <div class="topic-header" onclick="toggleTopic('t1_2')">
+        <div class="topic-title-row">
+          <span class="topic-num">1.2</span>
+          <span class="topic-name">Module Imports (JEP 476)</span>
+        </div>
+        <span class="topic-chevron">▼</span>
+      </div>
+      <div class="topic-body">
+        <div class="sub-label">Warm-ups</div>
+        <ul class="warmup-list">
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Write <code>import java.util.ArrayList;</code> and use it</li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Write <code>import java.util.*;</code> and use ArrayList and HashMap</li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Write <code>import module java.base;</code> and use both — notice the difference</li>
+        </ul>
+        <div class="concept-section">
+          <div class="sub-label">Concept Checks</div>
+          <ol class="concept-list">
+            <li>What is a Java module? Name 3 common platform modules.</li>
+            <li>What's inside <code>java.base</code>? (Name 4 packages)</li>
+            <li>When should you use specific imports over module imports?</li>
+            <li>Why might <code>import module</code> cause problems in production code?</li>
+          </ol>
+          <div class="answer-block">
+            <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answers</button>
+            <div class="answer-content">
+              <p><span class="answer-num">1.</span> A Java module is a named, self-contained unit of code defined via <code>module-info.java</code>. Three common modules: <strong>java.base</strong>, <strong>java.sql</strong>, <strong>java.desktop</strong>.</p>
+              <p><span class="answer-num">2.</span> <code>java.base</code> contains: <code>java.lang</code>, <code>java.util</code>, <code>java.io</code>, <code>java.time</code>.</p>
+              <p><span class="answer-num">3.</span> Use specific imports in production code for clarity — they make it obvious which exact classes are used and avoid name conflicts.</p>
+              <p><span class="answer-num">4.</span> <code>import module</code> is a preview feature (JEP 476) — it may be disabled in production toolchains, and importing an entire module can cause ambiguity if two modules export the same class name.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic 1.3 -->
+    <div class="topic" id="t1_3">
+      <div class="topic-header" onclick="toggleTopic('t1_3')">
+        <div class="topic-title-row">
+          <span class="topic-num">1.3</span>
+          <span class="topic-name">Source Launch & JVM Architecture (JEP 458)</span>
+        </div>
+        <span class="topic-chevron">▼</span>
+      </div>
+      <div class="topic-body">
+        <div class="concept-section">
+          <div class="sub-label">Concept Checks</div>
+          <ol class="concept-list">
+            <li>What does <code>java Main.java</code> do that <code>javac Main.java</code> + <code>java Main</code> doesn't?</li>
+            <li>What is bytecode? Why is it platform-independent?</li>
+            <li>What is JIT compilation and when does it kick in?</li>
+            <li>What is the difference between JDK, JRE, and JVM?</li>
+            <li>What happens inside the JVM: Class Loader → Bytecode Verifier → Execution Engine?</li>
+          </ol>
+          <div class="answer-block">
+            <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answers</button>
+            <div class="answer-content">
+              <p><span class="answer-num">1.</span> <code>java Main.java</code> compiles and runs in a single step without producing a <code>.class</code> file on disk — a convenience for single-file programs.</p>
+              <p><span class="answer-num">2.</span> Bytecode is an intermediate binary representation (.class file) that is not machine-specific. Any JVM on any OS interprets the same bytecode — "write once, run anywhere."</p>
+              <p><span class="answer-num">3.</span> JIT (Just-In-Time) compilation kicks in at runtime: after interpreting bytecode for a while, the JVM identifies "hot" code and compiles it to native machine code for much faster subsequent execution.</p>
+              <p><span class="answer-num">4.</span> <strong>JVM</strong> — runs bytecode. <strong>JRE</strong> — JVM + standard libraries needed to run Java. <strong>JDK</strong> — JRE + compiler (<code>javac</code>) + dev tools; needed to write and compile Java.</p>
+              <p><span class="answer-num">5.</span> <strong>Class Loader</strong> — loads .class files into memory. <strong>Bytecode Verifier</strong> — checks bytecode is valid and safe. <strong>Execution Engine</strong> — interprets or JIT-compiles and executes the bytecode.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic 1.4 -->
+    <div class="topic" id="t1_4">
+      <div class="topic-header" onclick="toggleTopic('t1_4')">
+        <div class="topic-title-row">
+          <span class="topic-num">1.4</span>
+          <span class="topic-name">Variables: var, Unnamed Variables, Primitives vs Wrappers</span>
+        </div>
+        <span class="topic-chevron">▼</span>
+      </div>
+      <div class="topic-body">
+        <div class="sub-label">Warm-ups</div>
+        <ul class="warmup-list">
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Declare one of each 8 primitives. Print them all.</li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Declare <code>Integer a = 127; Integer b = 127;</code> — print <code>a == b</code>. Then try with 200.</li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Use <code>var</code> for a HashMap declaration. Confirm the type is inferred correctly.</li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Use <code>_</code> in a for-each loop where you only care about the count, not the item.</li>
+        </ul>
+        <div class="concept-section">
+          <div class="sub-label">Concept Checks</div>
+          <ol class="concept-list">
+            <li>List all 8 primitive types and their wrapper equivalents.</li>
+            <li>What is the Integer cache? What range? Why does it exist?</li>
+            <li>What is autoboxing? Give an example where it happens automatically.</li>
+            <li>What is the NullPointerException risk with wrappers? Give a concrete example.</li>
+            <li>When should you use <code>var</code>? When shouldn't you?</li>
+            <li>What is an unnamed variable <code>_</code>? Give 2 use cases.</li>
+            <li>Where does a primitive live (stack or heap)? Where does a wrapper live?</li>
+          </ol>
+          <div class="answer-block">
+            <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answers</button>
+            <div class="answer-content">
+              <p><span class="answer-num">1.</span> <code>byte→Byte</code>, <code>short→Short</code>, <code>int→Integer</code>, <code>long→Long</code>, <code>float→Float</code>, <code>double→Double</code>, <code>boolean→Boolean</code>, <code>char→Character</code></p>
+              <p><span class="answer-num">2.</span> Java caches <code>Integer</code> objects for values <strong>-128 to 127</strong>. <code>Integer.valueOf(n)</code> within this range returns the same cached object. It exists for performance — small integers are used very frequently.</p>
+              <p><span class="answer-num">3.</span> Autoboxing is the automatic conversion of a primitive to its wrapper. Example: <code>List&lt;Integer&gt; list = new ArrayList&lt;&gt;(); list.add(5);</code> — the <code>int</code> 5 is automatically boxed to <code>Integer(5)</code>.</p>
+              <p><span class="answer-num">4.</span> <code>Integer x = null; int y = x;</code> — causes a NullPointerException because unboxing null tries to call <code>x.intValue()</code> on a null reference.</p>
+              <p><span class="answer-num">5.</span> ✅ Use: <code>var list = new ArrayList&lt;String&gt;();</code> (type obvious from RHS). ❌ Don't: <code>var x = getUserData();</code> (return type unclear).</p>
+              <p><span class="answer-num">6.</span> <code>_</code> is an unnamed variable. Use 1: <code>for (var _ : list) count++;</code>. Use 2: <code>catch (Exception _) {}</code> (ignore the exception object).</p>
+              <p><span class="answer-num">7.</span> Primitives live on the <strong>stack</strong> (fast, automatic cleanup). Wrappers (objects) live on the <strong>heap</strong>; the stack holds only a reference.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic 1.5 -->
+    <div class="topic" id="t1_5">
+      <div class="topic-header" onclick="toggleTopic('t1_5')">
+        <div class="topic-title-row">
+          <span class="topic-num">1.5</span>
+          <span class="topic-name">Text Blocks, String Immutability, StringBuilder</span>
+        </div>
+        <span class="topic-chevron">▼</span>
+      </div>
+      <div class="topic-body">
+        <div class="sub-label">Warm-ups</div>
+        <ul class="warmup-list">
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Create a multi-line JSON string using a text block</li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Use <code>.formatted()</code> on a text block to inject variables</li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Demonstrate string immutability: show <code>s1.concat()</code> doesn't change <code>s1</code></li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Compare string concatenation in a loop vs StringBuilder — time both</li>
+        </ul>
+        <div class="concept-section">
+          <div class="sub-label">Concept Checks</div>
+          <ol class="concept-list">
+            <li>What are the 3 <code>"""</code> rules for text blocks?</li>
+            <li>What is the String pool? Difference between <code>"Hello"</code> and <code>new String("Hello")</code>?</li>
+            <li>Why is <code>String</code> immutable? What happens in memory when you do <code>s += "a"</code> in a loop?</li>
+            <li>When should you use StringBuilder over String concatenation?</li>
+            <li>What are the common format specifiers: <code>%s</code>, <code>%d</code>, <code>%f</code>, <code>%.2f</code>, <code>%n</code>, <code>%%</code>?</li>
+          </ol>
+          <div class="answer-block">
+            <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answers</button>
+            <div class="answer-content">
+              <p><span class="answer-num">1.</span> Rule 1: Opening <code>"""</code> must be followed by a newline (content starts next line). Rule 2: Closing <code>"""</code> position determines the indentation stripped. Rule 3: Common leading whitespace is auto-stripped based on closing <code>"""</code> placement.</p>
+              <p><span class="answer-num">2.</span> The String pool is a special memory region where string literals are interned. <code>"Hello"</code> — goes into pool, reused. <code>new String("Hello")</code> — always creates a new heap object, bypasses pool.</p>
+              <p><span class="answer-num">3.</span> <code>String</code> is backed by a <code>final char[]</code>. Each <code>+=</code> creates a brand-new <code>String</code> object on the heap. After 1000 iterations, 1000 objects created — very memory-inefficient.</p>
+              <p><span class="answer-num">4.</span> Use StringBuilder when concatenating in a loop or building a string piece by piece — it mutates the same internal buffer, no new objects created.</p>
+              <p><span class="answer-num">5.</span> <code>%s</code>=String, <code>%d</code>=integer, <code>%f</code>=float, <code>%.2f</code>=2 decimal places, <code>%n</code>=newline (platform-safe), <code>%%</code>=literal percent sign.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-box">
+          <div class="project-label">Week 1 Project Task</div>
+          <div class="project-title">TaskManager CLI</div>
+          <div class="project-desc">Create <code>TaskManager.java</code> with:</div>
+          <ul class="project-items">
+            <li><span class="req-dot">→</span><code>void main()</code> with a menu loop using a text block for the menu display</li>
+            <li><span class="req-dot">→</span><code>ArrayList&lt;String&gt;</code> to store task names</li>
+            <li><span class="req-dot">→</span>Options: Add task, List tasks, Exit</li>
+            <li><span class="req-dot">→</span>Use <code>readln()</code> for input</li>
+            <li><span class="req-dot">→</span>Use <code>.formatted()</code> for output formatting</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANKI CARDS W1 -->
+  <div class="anki-section">
+    <div class="section-header">
+      <span class="section-badge">Anki Cards</span>
+      <h2 class="section-title">Week 1 Flashcards</h2>
+    </div>
+    <p class="anki-intro">Click any card to reveal the answer. Study these after completing the guide.</p>
+    <div class="anki-deck">
+      <div class="anki-card" onclick="this.classList.toggle('flipped')">
+        <div class="anki-inner">
+          <div class="anki-front">
+            <div class="anki-tag">QUESTION</div>
+            <div class="anki-q">Write void main() that reads name and prints formatted greeting</div>
+            <div class="anki-hint">tap to flip →</div>
+          </div>
+          <div class="anki-back">
+            <div class="anki-tag">ANSWER</div>
+            <div class="anki-a"><code>void main() {<br>&nbsp;&nbsp;String n = readln("Name: ");<br>&nbsp;&nbsp;println("Hello, " + n);<br>}</code></div>
+            <div class="anki-hint">tap to flip back</div>
+          </div>
+        </div>
+      </div>
+      <div class="anki-card" onclick="this.classList.toggle('flipped')">
+        <div class="anki-inner">
+          <div class="anki-front">
+            <div class="anki-tag">QUESTION</div>
+            <div class="anki-q">8 primitive types?</div>
+            <div class="anki-hint">tap to flip →</div>
+          </div>
+          <div class="anki-back">
+            <div class="anki-tag">ANSWER</div>
+            <div class="anki-a"><code>byte, short, int, long,<br>float, double, boolean, char</code></div>
+            <div class="anki-hint">tap to flip back</div>
+          </div>
+        </div>
+      </div>
+      <div class="anki-card" onclick="this.classList.toggle('flipped')">
+        <div class="anki-inner">
+          <div class="anki-front">
+            <div class="anki-tag">QUESTION</div>
+            <div class="anki-q">Integer.valueOf(127) == Integer.valueOf(127) — true or false? Why?</div>
+            <div class="anki-hint">tap to flip →</div>
+          </div>
+          <div class="anki-back">
+            <div class="anki-tag">ANSWER</div>
+            <div class="anki-a"><strong>true</strong> — Integer cache covers -128 to 127. Same cached object is returned each time.</div>
+            <div class="anki-hint">tap to flip back</div>
+          </div>
+        </div>
+      </div>
+      <div class="anki-card" onclick="this.classList.toggle('flipped')">
+        <div class="anki-inner">
+          <div class="anki-front">
+            <div class="anki-tag">QUESTION</div>
+            <div class="anki-q">What is autoboxing?</div>
+            <div class="anki-hint">tap to flip →</div>
+          </div>
+          <div class="anki-back">
+            <div class="anki-tag">ANSWER</div>
+            <div class="anki-a">Automatic primitive→wrapper conversion. E.g. <code>List&lt;Integer&gt; list; list.add(5);</code> — 5 is boxed to Integer(5) automatically.</div>
+            <div class="anki-hint">tap to flip back</div>
+          </div>
+        </div>
+      </div>
+      <div class="anki-card" onclick="this.classList.toggle('flipped')">
+        <div class="anki-inner">
+          <div class="anki-front">
+            <div class="anki-tag">QUESTION</div>
+            <div class="anki-q">Why is StringBuilder faster than String concatenation in a loop?</div>
+            <div class="anki-hint">tap to flip →</div>
+          </div>
+          <div class="anki-back">
+            <div class="anki-tag">ANSWER</div>
+            <div class="anki-a">String creates a <strong>new object</strong> on each <code>+</code>; StringBuilder mutates the <strong>same buffer</strong> — no new objects created.</div>
+            <div class="anki-hint">tap to flip back</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 1 ASSESSMENT -->
+  <div class="assessment-section">
+    <div class="assessment-header">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:8px;letter-spacing:2px">WEEK 1 · ASSESSMENT</div>
+      <div class="assessment-title">Gate Test — Syntax, IO & Variables</div>
+      <div class="assessment-meta">Topics: Entry Point · Variables · Text Blocks · String · StringBuilder</div>
+    </div>
+    <div class="assessment-rules">
+      <p>🚫 Close ALL notes, files, and browser tabs</p>
+      <p>⏱️ Set a timer for each task</p>
+      <p>✅ Did it without help → full marks &nbsp;|&nbsp; ⚠️ Peeked once → half marks &nbsp;|&nbsp; ❌ Couldn't do it → zero</p>
+      <p class="pass-mark">Pass mark: 70/100 — score below 70 → spend 2 more days on weak areas, then retest</p>
+    </div>
+
+    <!-- Part A -->
+    <div class="theory-section">
+      <div class="theory-header">
+        <span class="theory-badge">Part A</span>
+        <span class="theory-title">Theory Questions</span>
+        <span class="marks-badge">[20 marks]</span>
+      </div>
+      <div class="theory-body">
+        <div class="theory-q"><span class="q-num">1</span><span>List all 8 primitive types and their wrapper equivalents.</span><span class="marks-tag">[4]</span></div>
+        <div class="theory-q"><span class="q-num">2</span><span>What is autoboxing? Give one example where it happens automatically.</span><span class="marks-tag">[2]</span></div>
+        <div class="theory-q"><span class="q-num">3</span><span>What is the Integer cache? What range does it cover? Why does it exist?</span><span class="marks-tag">[3]</span></div>
+        <div class="theory-q"><span class="q-num">4</span><span>Why is <code>String</code> immutable? What happens in memory when you do <code>s += "a"</code> 1000 times?</span><span class="marks-tag">[3]</span></div>
+        <div class="theory-q"><span class="q-num">5</span><span>What are the 3 rules for text blocks? (opening <code>"""</code>, closing position, indentation)</span><span class="marks-tag">[3]</span></div>
+        <div class="theory-q"><span class="q-num">6</span><span>When should you use <code>var</code>? Give one example of correct use and one of incorrect use.</span><span class="marks-tag">[2]</span></div>
+        <div class="theory-q"><span class="q-num">7</span><span>What is the difference between JDK, JRE, and JVM?</span><span class="marks-tag">[3]</span></div>
+      </div>
+      <div style="padding:0 20px 20px">
+        <div class="answer-block">
+          <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Part A Answers</button>
+          <div class="answer-content">
+            <p><span class="answer-num">1.</span> <code>byte→Byte</code>, <code>short→Short</code>, <code>int→Integer</code>, <code>long→Long</code>, <code>float→Float</code>, <code>double→Double</code>, <code>boolean→Boolean</code>, <code>char→Character</code></p>
+            <p><span class="answer-num">2.</span> Autoboxing = automatic primitive→wrapper conversion. Example: <code>List&lt;Integer&gt; list = new ArrayList&lt;&gt;(); list.add(5);</code> — int 5 is automatically converted to Integer(5).</p>
+            <p><span class="answer-num">3.</span> Java caches <code>Integer</code> objects for <strong>-128 to 127</strong>. <code>Integer.valueOf(n)</code> within this range returns the same cached object every time. Exists for performance — small integers are used very frequently.</p>
+            <p><span class="answer-num">4.</span> <code>String</code> is backed by a <code>final char[]</code>. Each <code>+=</code> creates a brand-new String object. After 1000 iterations, 1000 objects created and previous ones become garbage — very memory-inefficient.</p>
+            <p><span class="answer-num">5.</span> Rule 1: Opening <code>"""</code> must be on same line, followed immediately by a newline. Rule 2: Closing <code>"""</code> on its own line sets the indentation baseline. Rule 3: Common leading whitespace is stripped automatically.</p>
+            <p><span class="answer-num">6.</span> ✅ <code>var list = new ArrayList&lt;String&gt;();</code> — type obvious from RHS. ❌ <code>var result = process();</code> — return type unclear without looking it up.</p>
+            <p><span class="answer-num">7.</span> <strong>JVM</strong> — runs bytecode (platform-specific). <strong>JRE</strong> — JVM + standard libraries; to run Java programs. <strong>JDK</strong> — JRE + compiler + dev tools; to write and compile Java programs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 1 -->
+    <div class="coding-task">
+      <div class="coding-task-header">
+        <span class="task-badge">Task 1</span>
+        <span class="task-title">void main + IO</span>
+        <span class="time-badge">⏱ 10 min</span>
+        <span class="marks-badge">[15 marks]</span>
+      </div>
+      <div class="coding-task-body">
+        <p class="task-desc">Write a program that uses modern <code>void main()</code>, asks for first name, last name, and age, then prints a formatted welcome message using a text block with <code>.formatted()</code>.</p>
+        <pre><code>┌────────────────────────────┐
+│  Welcome, Rohan Sharma!    │
+│  Age: 22                   │
+│  Java Mastery starts now.  │
+└────────────────────────────┘</code></pre>
+        <div class="marks-row">Marks: Compiles and runs [5] · Uses void main [3] · Uses text block [4] · Uses .formatted() [3]</div>
+        <div class="answer-block" style="margin-top:12px">
+          <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answer</button>
+          <div class="answer-content">
+<pre><code><span class="kw">void</span> <span class="fn">main</span>() {
+    <span class="ty">String</span> first = <span class="fn">readln</span>(<span class="str">"First name: "</span>);
+    <span class="ty">String</span> last  = <span class="fn">readln</span>(<span class="str">"Last name: "</span>);
+    <span class="ty">String</span> age   = <span class="fn">readln</span>(<span class="str">"Age: "</span>);
+
+    <span class="ty">String</span> output = <span class="str">"""
+            ┌────────────────────────────┐
+            │  Welcome, %s %s!
+            │  Age: %s
+            │  Java Mastery starts now.  │
+            └────────────────────────────┘
+            """</span>.<span class="fn">formatted</span>(first, last, age);
+
+    <span class="fn">println</span>(output);
+}</code></pre>
+            <p style="color:var(--text3);font-size:13px;margin-top:8px">Key: Opening <code>"""</code> on same line, closing <code>"""</code> sets indentation, <code>.formatted()</code> injects variables positionally.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 2 -->
+    <div class="coding-task">
+      <div class="coding-task-header">
+        <span class="task-badge">Task 2</span>
+        <span class="task-title">Primitives, Wrappers, Integer Cache</span>
+        <span class="time-badge">⏱ 15 min</span>
+        <span class="marks-badge">[20 marks]</span>
+      </div>
+      <div class="coding-task-body">
+        <ul class="task-requirements">
+          <li><span class="req-dot">→</span>All 8 primitives declared and printed</li>
+          <li><span class="req-dot">→</span>Autoboxing: add an <code>int</code> to an <code>ArrayList&lt;Integer&gt;</code> without explicit cast</li>
+          <li><span class="req-dot">→</span>Integer cache: show <code>Integer.valueOf(100) == Integer.valueOf(100)</code> is true but <code>Integer.valueOf(200) == Integer.valueOf(200)</code> is false</li>
+          <li><span class="req-dot">→</span>NullPointerException risk: declare <code>Integer x = null</code> and safely handle unboxing</li>
+          <li><span class="req-dot">→</span>Use <code>var</code> for at least 2 declarations where it makes sense</li>
+        </ul>
+        <div class="answer-block">
+          <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answer</button>
+          <div class="answer-content">
+<pre><code><span class="kw">import</span> java.util.ArrayList;
+<span class="kw">public class</span> <span class="ty">Week1Task2</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="ty">String</span>[] args) {
+        <span class="cm">// 1. All 8 primitives</span>
+        <span class="kw">byte</span> b = <span class="num">127</span>; <span class="kw">short</span> s = <span class="num">32000</span>; <span class="kw">int</span> i = <span class="num">2_000_000</span>;
+        <span class="kw">long</span> l = <span class="num">9_000_000_000L</span>; <span class="kw">float</span> f = <span class="num">3.14f</span>;
+        <span class="kw">double</span> d = <span class="num">3.14159265</span>; <span class="kw">boolean</span> bool = <span class="kw">true</span>; <span class="kw">char</span> c = <span class="str">'J'</span>;
+        <span class="ty">System</span>.out.<span class="fn">println</span>(b + <span class="str">" "</span> + s + <span class="str">" "</span> + i + <span class="str">" "</span> + l + <span class="str">" "</span> + f + <span class="str">" "</span> + d + <span class="str">" "</span> + bool + <span class="str">" "</span> + c);
+
+        <span class="cm">// 2. Autoboxing</span>
+        <span class="kw">var</span> list = <span class="kw">new</span> <span class="ty">ArrayList</span>&lt;<span class="ty">Integer</span>&gt;();
+        list.<span class="fn">add</span>(<span class="num">42</span>); <span class="cm">// int 42 autoboxed to Integer(42)</span>
+
+        <span class="cm">// 3. Integer cache (-128 to 127)</span>
+        <span class="ty">Integer</span> a = <span class="ty">Integer</span>.<span class="fn">valueOf</span>(<span class="num">100</span>), aa = <span class="ty">Integer</span>.<span class="fn">valueOf</span>(<span class="num">100</span>);
+        <span class="ty">System</span>.out.<span class="fn">println</span>(a == aa);   <span class="cm">// true — same cached object</span>
+        <span class="ty">Integer</span> x = <span class="ty">Integer</span>.<span class="fn">valueOf</span>(<span class="num">200</span>), y = <span class="ty">Integer</span>.<span class="fn">valueOf</span>(<span class="num">200</span>);
+        <span class="ty">System</span>.out.<span class="fn">println</span>(x == y);    <span class="cm">// false — outside cache range</span>
+
+        <span class="cm">// 4. NPE safe handling</span>
+        <span class="ty">Integer</span> nullableInt = <span class="kw">null</span>;
+        <span class="kw">int</span> safe = (nullableInt != <span class="kw">null</span>) ? nullableInt : <span class="num">0</span>;
+        <span class="ty">System</span>.out.<span class="fn">println</span>(<span class="str">"Safe: "</span> + safe);
+
+        <span class="kw">var</span> message = <span class="str">"Demo complete"</span>;
+        <span class="ty">System</span>.out.<span class="fn">println</span>(message);
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 3 -->
+    <div class="coding-task">
+      <div class="coding-task-header">
+        <span class="task-badge">Task 3</span>
+        <span class="task-title">String vs StringBuilder Performance</span>
+        <span class="time-badge">⏱ 15 min</span>
+        <span class="marks-badge">[20 marks]</span>
+      </div>
+      <div class="coding-task-body">
+        <ul class="task-requirements">
+          <li><span class="req-dot">→</span>Build a 50,000-character string using <code>+</code> in a loop. Measure time in ms.</li>
+          <li><span class="req-dot">→</span>Build the same string using <code>StringBuilder</code>. Measure time in ms.</li>
+          <li><span class="req-dot">→</span>Print result using a text block showing both times and speedup ratio</li>
+          <li><span class="req-dot">→</span>Add a comment explaining WHY StringBuilder is faster</li>
+        </ul>
+        <div class="answer-block">
+          <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answer</button>
+          <div class="answer-content">
+<pre><code><span class="kw">public class</span> <span class="ty">Week1Task3</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="ty">String</span>[] args) {
+        <span class="kw">int</span> n = <span class="num">50_000</span>;
+        <span class="kw">long</span> s1 = <span class="ty">System</span>.<span class="fn">currentTimeMillis</span>();
+        <span class="ty">String</span> r1 = <span class="str">""</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++) {
+            r1 += <span class="str">"a"</span>; <span class="cm">// Each += creates NEW String — 50k objects!</span>
+        }
+        <span class="kw">long</span> t1 = <span class="ty">System</span>.<span class="fn">currentTimeMillis</span>() - s1;
+
+        <span class="kw">long</span> s2 = <span class="ty">System</span>.<span class="fn">currentTimeMillis</span>();
+        <span class="kw">var</span> sb = <span class="kw">new</span> <span class="ty">StringBuilder</span>();
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++) {
+            sb.<span class="fn">append</span>(<span class="str">"a"</span>); <span class="cm">// Mutates same buffer — no new objects</span>
+        }
+        <span class="ty">String</span> r2 = sb.<span class="fn">toString</span>();
+        <span class="kw">long</span> t2 = <span class="ty">System</span>.<span class="fn">currentTimeMillis</span>() - s2;
+
+        <span class="kw">double</span> speedup = t2 &gt; <span class="num">0</span> ? (<span class="kw">double</span>) t1 / t2 : t1;
+        <span class="ty">System</span>.out.<span class="fn">printf</span>(<span class="str">"""
+            String(+):     %d ms
+            StringBuilder: %d ms
+            Speedup:       %.1fx%n"""</span>, t1, t2, speedup);
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 4 -->
+    <div class="coding-task">
+      <div class="coding-task-header">
+        <span class="task-badge">Task 4</span>
+        <span class="task-title">Gate Test — Receipt Printer</span>
+        <span class="time-badge">⏱ 20 min</span>
+        <span class="marks-badge">[25 marks]</span>
+      </div>
+      <div class="coding-task-body">
+        <p class="task-desc">Build a receipt printer. Given hardcoded data (5 items with names, quantities, prices), print a formatted receipt with subtotal, tax (8%), and total. All values must come from variables. Use a text block. Numbers must be right-aligned.</p>
+        <div class="answer-block">
+          <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answer</button>
+          <div class="answer-content">
+<pre><code><span class="kw">public class</span> <span class="ty">ReceiptPrinter</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="ty">String</span>[] args) {
+        <span class="ty">String</span>[] names  = {<span class="str">"Coffee"</span>, <span class="str">"Notebook"</span>, <span class="str">"Pen"</span>, <span class="str">"USB Cable"</span>, <span class="str">"Mouse Pad"</span>};
+        <span class="kw">int</span>[]    qtys   = {<span class="num">2</span>, <span class="num">1</span>, <span class="num">3</span>, <span class="num">1</span>, <span class="num">2</span>};
+        <span class="kw">double</span>[] prices = {<span class="num">3.50</span>, <span class="num">4.50</span>, <span class="num">0.75</span>, <span class="num">12.99</span>, <span class="num">8.99</span>};
+
+        <span class="kw">double</span> subtotal = <span class="num">0</span>;
+        <span class="kw">var</span> rows = <span class="kw">new</span> <span class="ty">StringBuilder</span>();
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; names.length; i++) {
+            <span class="kw">double</span> line = qtys[i] * prices[i];
+            subtotal += line;
+            rows.<span class="fn">append</span>(<span class="str">"║ %-15s x%-2d  $%-8.2f║%n"</span>
+                .<span class="fn">formatted</span>(names[i], qtys[i], line));
+        }
+
+        <span class="kw">double</span> tax = subtotal * <span class="num">0.08</span>;
+        <span class="kw">double</span> total = subtotal + tax;
+
+        <span class="ty">System</span>.out.<span class="fn">printf</span>(<span class="str">"""
+                ╔══════════════════════════════════╗
+                ║         JAVA STORE               ║
+                ╠══════════════════════════════════╣
+                %s╠══════════════════════════════════╣
+                ║ Subtotal:             $%-8.2f  ║
+                ║ Tax (8%%):             $%-8.2f  ║
+                ║ TOTAL:                $%-8.2f  ║
+                ╚══════════════════════════════════╝
+                """</span>, rows, subtotal, tax, total);
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Score Table -->
+    <table class="score-table">
+      <thead><tr><th>Part</th><th>Max</th><th>Your Score</th></tr></thead>
+      <tbody>
+        <tr><td>Part A — Theory</td><td>20</td><td>___</td></tr>
+        <tr><td>Task 1 — void main + IO</td><td>15</td><td>___</td></tr>
+        <tr><td>Task 2 — Primitives/Wrappers</td><td>20</td><td>___</td></tr>
+        <tr><td>Task 3 — String/StringBuilder</td><td>20</td><td>___</td></tr>
+        <tr><td>Task 4 — Gate Test</td><td>25</td><td>___</td></tr>
+        <tr class="total"><td><strong>TOTAL</strong></td><td><strong>100</strong></td><td><strong>___</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="result-block">
+      <div class="result-row"><span class="result-icon">✅</span><span class="result-text"><strong>70+</strong> → Move to Week 2</span></div>
+      <div class="result-row"><span class="result-icon">⚠️</span><span class="result-text"><strong>50–69</strong> → Review weak topics for 2 days, then retest Task 4</span></div>
+      <div class="result-row"><span class="result-icon">❌</span><span class="result-text"><strong>Below 50</strong> → Redo entire week</span></div>
+    </div>
+  </div>
+
+  <div class="week-nav">
+    <button class="week-nav-btn" disabled>← Previous</button>
+    <span class="week-nav-center">Week 1 / 8</span>
+    <button class="week-nav-btn" onclick="showWeek('w2')">Week 2 →</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ WEEK 2 ═══════════════════════════════ -->
+<section class="week-section" id="w2">
+  <div class="study-section">
+    <div class="section-header">
+      <span class="section-badge">Week 2 · Study Guide</span>
+      <h2 class="section-title">OOP Pillars I & II: Encapsulation, Records, Inheritance</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="topic" id="t2_1">
+      <div class="topic-header" onclick="toggleTopic('t2_1')">
+        <div class="topic-title-row"><span class="topic-num">2.1</span><span class="topic-name">Encapsulation & Access Modifiers</span></div>
+        <span class="topic-chevron">▼</span>
+      </div>
+      <div class="topic-body">
+        <div class="sub-label">Warm-ups</div>
+        <ul class="warmup-list">
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Write a <code>Person</code> class with public fields. Then make them private. Add getters.</li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Add a setter for age that throws <code>IllegalArgumentException</code> if age &lt; 0</li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Try accessing a private field from outside the class — see the compile error</li>
+        </ul>
+        <div class="concept-section">
+          <div class="sub-label">Concept Checks</div>
+          <ol class="concept-list">
+            <li>What is encapsulation? Why make a field private if you're just going to expose it with a getter?</li>
+            <li>What are the 4 access modifiers? What can see each one?</li>
+            <li>What is the <code>this</code> keyword? Give an example of when it's necessary.</li>
+            <li>What is the difference between a constructor and a method?</li>
+            <li>Why would you have no setter for a field but still have a getter?</li>
+          </ol>
+          <div class="answer-block">
+            <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answers</button>
+            <div class="answer-content">
+              <p><span class="answer-num">1.</span> Encapsulation bundles data and behavior and controls access. A private field with a getter: you can add validation, make it read-only, change internal representation later without breaking callers — the getter is a stable contract.</p>
+              <p><span class="answer-num">2.</span> <strong>private</strong> — only the same class. <strong>package-private</strong> (no modifier) — same class + same package. <strong>protected</strong> — same class + package + subclasses. <strong>public</strong> — everything everywhere.</p>
+              <p><span class="answer-num">3.</span> <code>this</code> refers to the current object instance. Necessary to distinguish field from parameter with same name: <code>this.name = name;</code></p>
+              <p><span class="answer-num">4.</span> A constructor has no return type, same name as the class, called via <code>new</code>. A method has a return type, any name, called on an existing object.</p>
+              <p><span class="answer-num">5.</span> A getter with no setter means the field is effectively read-only from outside. Internal logic can still change it — gives external immutability without making the whole class immutable.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic" id="t2_2">
+      <div class="topic-header" onclick="toggleTopic('t2_2')">
+        <div class="topic-title-row"><span class="topic-num">2.2</span><span class="topic-name">Records</span></div>
+        <span class="topic-chevron">▼</span>
+      </div>
+      <div class="topic-body">
+        <div class="sub-label">Warm-ups</div>
+        <ul class="warmup-list">
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Write <code>record Point(double x, double y) {}</code> — create one and call <code>p.x()</code>, <code>p.y()</code>, <code>System.out.println(p)</code></li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Write two Points with same values — compare with <code>.equals()</code></li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Add a compact constructor that validates x and y are not negative</li>
+          <li><div class="warmup-check" onclick="toggleCheck(this)"></div>Add a custom method <code>distance()</code> to the record</li>
+        </ul>
+        <div class="concept-section">
+          <div class="sub-label">Concept Checks</div>
+          <ol class="concept-list">
+            <li>What 5 things does a record auto-generate?</li>
+            <li>What is a compact constructor? How is it different from a regular constructor?</li>
+            <li>Can a record extend a class? Can a class extend a record?</li>
+            <li>Are records mutable or immutable?</li>
+            <li>When should you use Record vs class? Give 3 examples of each.</li>
+            <li>What is the difference between <code>person.name()</code> (record accessor) and <code>person.getName()</code> (class getter)?</li>
+          </ol>
+          <div class="answer-block">
+            <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answers</button>
+            <div class="answer-content">
+              <p><span class="answer-num">1.</span> Canonical constructor, accessor methods (one per field, named after the field), <code>equals()</code>, <code>hashCode()</code>, <code>toString()</code>.</p>
+              <p><span class="answer-num">2.</span> A compact constructor omits the parameter list — it implicitly receives all fields and you write only validation/transformation logic. Fields are assigned automatically at the end.</p>
+              <p><span class="answer-num">3.</span> No — a record cannot extend any class (implicitly extends <code>Record</code>). No — a class cannot extend a record (records are implicitly final).</p>
+              <p><span class="answer-num">4.</span> Records are <strong>immutable</strong> — all fields are <code>final</code>, there are no setters.</p>
+              <p><span class="answer-num">5.</span> Use <strong>Record</strong> for: DTO/data transfer, coordinates, API responses. Use <strong>class</strong> for: mutable objects like BankAccount, objects with complex behavior, JPA entities.</p>
+              <p><span class="answer-num">6.</span> Record accessor is <code>person.name()</code> — no "get" prefix. Class getter is <code>person.getName()</code> — with "get" prefix.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic" id="t2_3">
+      <div class="topic-header" onclick="toggleTopic('t2_3')">
+        <div class="topic-title-row"><span class="topic-num">2.3</span><span class="topic-name">Inheritance & super</span></div>
+        <span class="topic-chevron">▼</span>
+      </div>
+      <div class="topic-body">
+        <div class="concept-section">
+          <div class="sub-label">Concept Checks</div>
+          <ol class="concept-list">
+            <li>What is inheritance? What does <code>extends</code> do?</li>
+            <li>What are the 3 uses of the <code>super</code> keyword?</li>
+            <li>What is the order of constructor execution in an inheritance chain?</li>
+            <li>What is method overriding? What are the 4 rules for overriding?</li>
+            <li>What does <code>@Override</code> annotation do?</li>
+            <li>Can you override a <code>final</code> method? A <code>private</code> method? A <code>static</code> method?</li>
+            <li>Why doesn't Java support multiple class inheritance? What is the diamond problem?</li>
+            <li>What class does every Java class implicitly extend?</li>
+          </ol>
+          <div class="answer-block">
+            <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answers</button>
+            <div class="answer-content">
+              <p><span class="answer-num">1.</span> Inheritance allows a child class to acquire fields and methods of a parent class. <code>extends</code> establishes the IS-A relationship.</p>
+              <p><span class="answer-num">2.</span> <code>super()</code> — call the parent constructor. <code>super.field</code> — access a parent field. <code>super.method()</code> — call a parent method that has been overridden.</p>
+              <p><span class="answer-num">3.</span> Top-down: GrandParent constructor → Parent constructor → Child constructor.</p>
+              <p><span class="answer-num">4.</span> Overriding = redefining a parent method in child. 4 rules: same name, same parameters, same or covariant return type, not more restrictive access.</p>
+              <p><span class="answer-num">5.</span> <code>@Override</code> tells the compiler to verify this is actually overriding a parent method. Without it, a typo creates a new method silently.</p>
+              <p><span class="answer-num">6.</span> No — <code>final</code> methods cannot be overridden. No — <code>private</code> methods are not inherited. No — <code>static</code> methods can be "hidden" but not overridden.</p>
+              <p><span class="answer-num">7.</span> If class C extends A and B, and both have <code>hello()</code>, the compiler can't know which to use. This ambiguity is the diamond problem. Java avoids it with single class inheritance.</p>
+              <p><span class="answer-num">8.</span> Every Java class implicitly extends <code>java.lang.Object</code>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic" id="t2_4">
+      <div class="topic-header" onclick="toggleTopic('t2_4')">
+        <div class="topic-title-row"><span class="topic-num">2.4</span><span class="topic-name">Sealed Classes</span></div>
+        <span class="topic-chevron">▼</span>
+      </div>
+      <div class="topic-body">
+        <div class="concept-section">
+          <div class="sub-label">Concept Checks</div>
+          <ol class="concept-list">
+            <li>What problem do sealed classes solve?</li>
+            <li>What are the 3 options for a permitted subclass: <code>final</code>, <code>sealed</code>, <code>non-sealed</code>?</li>
+            <li>Why do sealed classes enable exhaustive switch statements?</li>
+            <li>What is the difference between sealed class and final class?</li>
+            <li>Can interfaces be sealed?</li>
+          </ol>
+          <div class="answer-block">
+            <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answers</button>
+            <div class="answer-content">
+              <p><span class="answer-num">1.</span> Sealed classes solve uncontrolled inheritance — they give the author control over which classes can extend them, enabling safe exhaustive pattern matching and closed type hierarchies.</p>
+              <p><span class="answer-num">2.</span> <strong>final</strong> — no further subclassing. <strong>sealed</strong> — can be extended but only by its own permitted list. <strong>non-sealed</strong> — opens the hierarchy again.</p>
+              <p><span class="answer-num">3.</span> The compiler knows the complete, fixed set of subtypes at compile time — it can verify every case is covered in a switch, so no <code>default</code> is needed.</p>
+              <p><span class="answer-num">4.</span> <code>final</code> = no subclassing at all. <code>sealed</code> = controlled subclassing — only permitted classes may extend it.</p>
+              <p><span class="answer-num">5.</span> Yes, interfaces can be <code>sealed</code>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANKI W2 -->
+  <div class="anki-section">
+    <div class="section-header">
+      <span class="section-badge">Anki Cards</span>
+      <h2 class="section-title">Week 2 Flashcards</h2>
+    </div>
+    <p class="anki-intro">Click any card to reveal the answer.</p>
+    <div class="anki-deck">
+      <div class="anki-card" onclick="this.classList.toggle('flipped')">
+        <div class="anki-inner">
+          <div class="anki-front"><div class="anki-tag">QUESTION</div><div class="anki-q">What 5 things does a record auto-generate?</div><div class="anki-hint">tap to flip →</div></div>
+          <div class="anki-back"><div class="anki-tag">ANSWER</div><div class="anki-a">Canonical constructor, accessors (no get prefix), <code>equals()</code>, <code>hashCode()</code>, <code>toString()</code></div><div class="anki-hint">tap to flip back</div></div>
+        </div>
+      </div>
+      <div class="anki-card" onclick="this.classList.toggle('flipped')">
+        <div class="anki-inner">
+          <div class="anki-front"><div class="anki-tag">QUESTION</div><div class="anki-q">3 uses of the super keyword?</div><div class="anki-hint">tap to flip →</div></div>
+          <div class="anki-back"><div class="anki-tag">ANSWER</div><div class="anki-a"><code>super()</code> call parent constructor, <code>super.field</code> access parent field, <code>super.method()</code> call parent method</div><div class="anki-hint">tap to flip back</div></div>
+        </div>
+      </div>
+      <div class="anki-card" onclick="this.classList.toggle('flipped')">
+        <div class="anki-inner">
+          <div class="anki-front"><div class="anki-tag">QUESTION</div><div class="anki-q">Constructor execution order for new Child()?</div><div class="anki-hint">tap to flip →</div></div>
+          <div class="anki-back"><div class="anki-tag">ANSWER</div><div class="anki-a">GrandParent → Parent → Child (top-down, highest ancestor first)</div><div class="anki-hint">tap to flip back</div></div>
+        </div>
+      </div>
+      <div class="anki-card" onclick="this.classList.toggle('flipped')">
+        <div class="anki-inner">
+          <div class="anki-front"><div class="anki-tag">QUESTION</div><div class="anki-q">Can records extend classes? Can classes extend records?</div><div class="anki-hint">tap to flip →</div></div>
+          <div class="anki-back"><div class="anki-tag">ANSWER</div><div class="anki-a">No to both — records implicitly extend Record and are implicitly final</div><div class="anki-hint">tap to flip back</div></div>
+        </div>
+      </div>
+      <div class="anki-card" onclick="this.classList.toggle('flipped')">
+        <div class="anki-inner">
+          <div class="anki-front"><div class="anki-tag">QUESTION</div><div class="anki-q">Sealed class: 3 options for permitted subclasses?</div><div class="anki-hint">tap to flip →</div></div>
+          <div class="anki-back"><div class="anki-tag">ANSWER</div><div class="anki-a"><strong>final</strong> (no further extension), <strong>sealed</strong> (controlled extension), <strong>non-sealed</strong> (open extension)</div><div class="anki-hint">tap to flip back</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 2 ASSESSMENT -->
+  <div class="assessment-section">
+    <div class="assessment-header">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:8px;letter-spacing:2px">WEEK 2 · ASSESSMENT</div>
+      <div class="assessment-title">Gate Test — OOP Pillars I & II</div>
+      <div class="assessment-meta">Topics: Encapsulation · Records · Inheritance · Sealed Classes</div>
+    </div>
+    <div class="assessment-rules">
+      <p>🚫 Close ALL notes, files, and browser tabs</p>
+      <p class="pass-mark">Pass mark: 70/100</p>
+    </div>
+
+    <div class="theory-section">
+      <div class="theory-header">
+        <span class="theory-badge">Part A</span>
+        <span class="theory-title">Theory Questions</span>
+        <span class="marks-badge">[20 marks]</span>
+      </div>
+      <div class="theory-body">
+        <div class="theory-q"><span class="q-num">1</span><span>What is encapsulation? Why make a field private if you just expose it with a getter?</span><span class="marks-tag">[3]</span></div>
+        <div class="theory-q"><span class="q-num">2</span><span>What 5 things does a Record auto-generate? List all 5.</span><span class="marks-tag">[5]</span></div>
+        <div class="theory-q"><span class="q-num">3</span><span>What are the 3 uses of the <code>super</code> keyword?</span><span class="marks-tag">[3]</span></div>
+        <div class="theory-q"><span class="q-num">4</span><span>What is the constructor execution order when you do <code>new Child()</code>?</span><span class="marks-tag">[2]</span></div>
+        <div class="theory-q"><span class="q-num">5</span><span>What are the 4 rules for method overriding?</span><span class="marks-tag">[4]</span></div>
+        <div class="theory-q"><span class="q-num">6</span><span>What are the 3 options for a permitted subclass in a sealed class?</span><span class="marks-tag">[3]</span></div>
+      </div>
+      <div style="padding:0 20px 20px">
+        <div class="answer-block">
+          <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Part A Answers</button>
+          <div class="answer-content">
+            <p><span class="answer-num">1.</span> Encapsulation bundles data and behavior and controls access. Private field + getter: you can add validation or transformation later, make it truly read-only from outside, change internal representation without breaking callers.</p>
+            <p><span class="answer-num">2.</span> (1) canonical constructor, (2) accessor methods (no "get" prefix), (3) <code>equals()</code>, (4) <code>hashCode()</code>, (5) <code>toString()</code>.</p>
+            <p><span class="answer-num">3.</span> <code>super()</code> — call parent constructor. <code>super.fieldName</code> — access parent field. <code>super.methodName()</code> — call parent method that has been overridden.</p>
+            <p><span class="answer-num">4.</span> Top-down: GrandParent → Parent → Child. The topmost ancestor is always initialized first.</p>
+            <p><span class="answer-num">5.</span> Same method name. Same parameter list. Return type must be the same or covariant subtype. Access modifier must not be more restrictive than parent.</p>
+            <p><span class="answer-num">6.</span> <code>final</code> — cannot be further subclassed. <code>sealed</code> — can be subclassed by its own permitted list. <code>non-sealed</code> — opens the hierarchy; anyone can extend it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coding-task">
+      <div class="coding-task-header">
+        <span class="task-badge">Task 1</span>
+        <span class="task-title">Encapsulation with Validation — BankAccount</span>
+        <span class="time-badge">⏱ 15 min</span>
+        <span class="marks-badge">[20 marks]</span>
+      </div>
+      <div class="coding-task-body">
+        <ul class="task-requirements">
+          <li><span class="req-dot">→</span>Private <code>double balance</code> — no setter</li>
+          <li><span class="req-dot">→</span>Constructor sets initial balance (reject if negative)</li>
+          <li><span class="req-dot">→</span><code>deposit(double amount)</code> — validates &gt; 0</li>
+          <li><span class="req-dot">→</span><code>withdraw(double amount)</code> — validates &gt; 0 and balance sufficient</li>
+          <li><span class="req-dot">→</span><code>getBalance()</code> getter + <code>toString()</code></li>
+          <li><span class="req-dot">→</span>Test in main: valid deposit, valid withdrawal, invalid amount (catch), overdraft (catch)</li>
+        </ul>
+        <div class="answer-block">
+          <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answer</button>
+          <div class="answer-content">
+<pre><code><span class="kw">public class</span> <span class="ty">BankAccount</span> {
+    <span class="kw">private double</span> balance;
+
+    <span class="kw">public</span> <span class="fn">BankAccount</span>(<span class="kw">double</span> initial) {
+        <span class="kw">if</span> (initial &lt; <span class="num">0</span>) <span class="kw">throw new</span> <span class="ty">IllegalArgumentException</span>(<span class="str">"Cannot be negative"</span>);
+        <span class="kw">this</span>.balance = initial;
+    }
+
+    <span class="kw">public void</span> <span class="fn">deposit</span>(<span class="kw">double</span> amount) {
+        <span class="kw">if</span> (amount &lt;= <span class="num">0</span>) <span class="kw">throw new</span> <span class="ty">IllegalArgumentException</span>(<span class="str">"Deposit must be positive"</span>);
+        balance += amount;
+    }
+
+    <span class="kw">public void</span> <span class="fn">withdraw</span>(<span class="kw">double</span> amount) {
+        <span class="kw">if</span> (amount &lt;= <span class="num">0</span>) <span class="kw">throw new</span> <span class="ty">IllegalArgumentException</span>(<span class="str">"Withdrawal must be positive"</span>);
+        <span class="kw">if</span> (amount &gt; balance) <span class="kw">throw new</span> <span class="ty">IllegalStateException</span>(<span class="str">"Insufficient funds"</span>);
+        balance -= amount;
+    }
+
+    <span class="kw">public double</span> <span class="fn">getBalance</span>() { <span class="kw">return</span> balance; }
+
+    <span class="kw">public</span> <span class="ty">String</span> <span class="fn">toString</span>() { <span class="kw">return</span> <span class="str">"BankAccount{balance=%.2f}"</span>.<span class="fn">formatted</span>(balance); }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coding-task">
+      <div class="coding-task-header">
+        <span class="task-badge">Task 2</span>
+        <span class="task-title">Records — Money</span>
+        <span class="time-badge">⏱ 12 min</span>
+        <span class="marks-badge">[15 marks]</span>
+      </div>
+      <div class="coding-task-body">
+        <ul class="task-requirements">
+          <li><span class="req-dot">→</span>Create <code>record Money(double amount, String currency)</code></li>
+          <li><span class="req-dot">→</span>Compact constructor validates: amount &gt;= 0, currency not null or blank</li>
+          <li><span class="req-dot">→</span>Method <code>add(Money other)</code> — throws if currencies differ, returns new Money</li>
+          <li><span class="req-dot">→</span>Method <code>format()</code> — returns "INR 250.00"</li>
+          <li><span class="req-dot">→</span>Static factory <code>zero(String currency)</code></li>
+        </ul>
+        <div class="answer-block">
+          <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answer</button>
+          <div class="answer-content">
+<pre><code><span class="kw">public record</span> <span class="ty">Money</span>(<span class="kw">double</span> amount, <span class="ty">String</span> currency) {
+    <span class="kw">public</span> <span class="ty">Money</span> { <span class="cm">// compact constructor</span>
+        <span class="kw">if</span> (amount &lt; <span class="num">0</span>) <span class="kw">throw new</span> <span class="ty">IllegalArgumentException</span>(<span class="str">"Amount cannot be negative"</span>);
+        <span class="kw">if</span> (currency == <span class="kw">null</span> || currency.<span class="fn">isBlank</span>()) <span class="kw">throw new</span> <span class="ty">IllegalArgumentException</span>(<span class="str">"Currency required"</span>);
+    }
+
+    <span class="kw">public</span> <span class="ty">Money</span> <span class="fn">add</span>(<span class="ty">Money</span> other) {
+        <span class="kw">if</span> (!<span class="kw">this</span>.currency.<span class="fn">equals</span>(other.currency))
+            <span class="kw">throw new</span> <span class="ty">IllegalArgumentException</span>(<span class="str">"Currency mismatch"</span>);
+        <span class="kw">return new</span> <span class="ty">Money</span>(<span class="kw">this</span>.amount + other.amount, <span class="kw">this</span>.currency);
+    }
+
+    <span class="kw">public</span> <span class="ty">String</span> <span class="fn">format</span>() { <span class="kw">return</span> <span class="str">"%s %.2f"</span>.<span class="fn">formatted</span>(currency, amount); }
+
+    <span class="kw">public static</span> <span class="ty">Money</span> <span class="fn">zero</span>(<span class="ty">String</span> currency) { <span class="kw">return new</span> <span class="ty">Money</span>(<span class="num">0</span>, currency); }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coding-task">
+      <div class="coding-task-header">
+        <span class="task-badge">Task 3</span>
+        <span class="task-title">Inheritance Chain — Vehicle → Car → ElectricCar</span>
+        <span class="time-badge">⏱ 18 min</span>
+        <span class="marks-badge">[20 marks]</span>
+      </div>
+      <div class="coding-task-body">
+        <ul class="task-requirements">
+          <li><span class="req-dot">→</span>Abstract <code>Vehicle</code> with abstract <code>start()</code>, <code>stop()</code>, <code>fuelType()</code> and concrete <code>describe()</code></li>
+          <li><span class="req-dot">→</span><code>Car extends Vehicle</code> — adds numDoors, overrides start() with "Seatbelt check"</li>
+          <li><span class="req-dot">→</span><code>ElectricCar extends Car</code> — adds batteryRange, overrides start() with "Battery check" then calls super</li>
+          <li><span class="req-dot">→</span>Store all in <code>Vehicle[]</code>, call <code>start()</code> and <code>describe()</code> on each</li>
+        </ul>
+        <div class="answer-block">
+          <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answer</button>
+          <div class="answer-content">
+<pre><code><span class="kw">abstract class</span> <span class="ty">Vehicle</span> {
+    <span class="kw">private</span> <span class="ty">String</span> brand;
+    <span class="kw">public</span> <span class="fn">Vehicle</span>(<span class="ty">String</span> brand) { <span class="kw">this</span>.brand = brand; }
+    <span class="kw">public abstract void</span> <span class="fn">start</span>(); <span class="kw">public abstract void</span> <span class="fn">stop</span>();
+    <span class="kw">public abstract</span> <span class="ty">String</span> <span class="fn">fuelType</span>();
+    <span class="kw">public void</span> <span class="fn">describe</span>() { <span class="ty">System</span>.out.<span class="fn">println</span>(brand + <span class="str">" runs on "</span> + <span class="fn">fuelType</span>()); }
+}
+
+<span class="kw">class</span> <span class="ty">Car</span> <span class="kw">extends</span> <span class="ty">Vehicle</span> {
+    <span class="kw">public</span> <span class="fn">Car</span>(<span class="ty">String</span> brand, <span class="kw">int</span> doors) { <span class="kw">super</span>(brand); }
+    <span class="kw">public void</span> <span class="fn">start</span>() { <span class="ty">System</span>.out.<span class="fn">println</span>(<span class="str">"Seatbelt check ✓ → Car started"</span>); }
+    <span class="kw">public void</span> <span class="fn">stop</span>() { <span class="ty">System</span>.out.<span class="fn">println</span>(<span class="str">"Car stopped"</span>); }
+    <span class="kw">public</span> <span class="ty">String</span> <span class="fn">fuelType</span>() { <span class="kw">return</span> <span class="str">"Petrol"</span>; }
+}
+
+<span class="kw">class</span> <span class="ty">ElectricCar</span> <span class="kw">extends</span> <span class="ty">Car</span> {
+    <span class="kw">public</span> <span class="fn">ElectricCar</span>(<span class="ty">String</span> brand, <span class="kw">int</span> range) { <span class="kw">super</span>(brand, <span class="num">4</span>); }
+    <span class="kw">public void</span> <span class="fn">start</span>() { <span class="ty">System</span>.out.<span class="fn">print</span>(<span class="str">"Battery check ✓ → "</span>); <span class="kw">super</span>.<span class="fn">start</span>(); }
+    <span class="kw">public</span> <span class="ty">String</span> <span class="fn">fuelType</span>() { <span class="kw">return</span> <span class="str">"Electric"</span>; }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coding-task">
+      <div class="coding-task-header">
+        <span class="task-badge">Task 4</span>
+        <span class="task-title">Gate Test — Sealed Classes + Records Payment System</span>
+        <span class="time-badge">⏱ 20 min</span>
+        <span class="marks-badge">[25 marks]</span>
+      </div>
+      <div class="coding-task-body">
+        <ul class="task-requirements">
+          <li><span class="req-dot">→</span><code>sealed interface Payment permits CashPayment, CardPayment, UPIPayment</code></li>
+          <li><span class="req-dot">→</span>Each is a <code>record</code> with appropriate fields</li>
+          <li><span class="req-dot">→</span>Write <code>processPayment(Payment p)</code> using switch pattern matching — no default case needed</li>
+          <li><span class="req-dot">→</span>Write <code>generateReceipt(Payment p)</code> returning formatted String</li>
+          <li><span class="req-dot">→</span>In main: create one of each, process all, print receipts</li>
+        </ul>
+        <div class="answer-block">
+          <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answer</button>
+          <div class="answer-content">
+<pre><code><span class="kw">public class</span> <span class="ty">PaymentSystem</span> {
+    <span class="kw">sealed interface</span> <span class="ty">Payment</span> <span class="kw">permits</span> <span class="ty">CashPayment</span>, <span class="ty">CardPayment</span>, <span class="ty">UPIPayment</span> {}
+    <span class="kw">record</span> <span class="ty">CashPayment</span>(<span class="kw">double</span> amount) <span class="kw">implements</span> <span class="ty">Payment</span> {}
+    <span class="kw">record</span> <span class="ty">CardPayment</span>(<span class="ty">String</span> last4digits, <span class="kw">double</span> amount) <span class="kw">implements</span> <span class="ty">Payment</span> {}
+    <span class="kw">record</span> <span class="ty">UPIPayment</span>(<span class="ty">String</span> upiId, <span class="kw">double</span> amount) <span class="kw">implements</span> <span class="ty">Payment</span> {}
+
+    <span class="kw">static void</span> <span class="fn">processPayment</span>(<span class="ty">Payment</span> p) {
+        <span class="cm">// No default needed — compiler knows all permitted types</span>
+        <span class="kw">switch</span> (p) {
+            <span class="kw">case</span> <span class="ty">CashPayment</span> c  -> <span class="ty">System</span>.out.<span class="fn">println</span>(<span class="str">"Cash: $"</span> + c.<span class="fn">amount</span>());
+            <span class="kw">case</span> <span class="ty">CardPayment</span> c  -> <span class="ty">System</span>.out.<span class="fn">println</span>(<span class="str">"Card ****"</span> + c.<span class="fn">last4digits</span>());
+            <span class="kw">case</span> <span class="ty">UPIPayment</span> u   -> <span class="ty">System</span>.out.<span class="fn">println</span>(<span class="str">"UPI: "</span> + u.<span class="fn">upiId</span>());
+        }
+    }
+
+    <span class="kw">static</span> <span class="ty">String</span> <span class="fn">generateReceipt</span>(<span class="ty">Payment</span> p) {
+        <span class="kw">return switch</span> (p) {
+            <span class="kw">case</span> <span class="ty">CashPayment</span> c  -> <span class="str">"RECEIPT: Cash $%.2f"</span>.<span class="fn">formatted</span>(c.<span class="fn">amount</span>());
+            <span class="kw">case</span> <span class="ty">CardPayment</span> c  -> <span class="str">"RECEIPT: Card ****%s $%.2f"</span>.<span class="fn">formatted</span>(c.<span class="fn">last4digits</span>(), c.<span class="fn">amount</span>());
+            <span class="kw">case</span> <span class="ty">UPIPayment</span> u   -> <span class="str">"RECEIPT: UPI %s $%.2f"</span>.<span class="fn">formatted</span>(u.<span class="fn">upiId</span>(), u.<span class="fn">amount</span>());
+        };
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="score-table">
+      <thead><tr><th>Part</th><th>Max</th><th>Your Score</th></tr></thead>
+      <tbody>
+        <tr><td>Part A — Theory</td><td>20</td><td>___</td></tr>
+        <tr><td>Task 1 — BankAccount</td><td>20</td><td>___</td></tr>
+        <tr><td>Task 2 — Records (Money)</td><td>15</td><td>___</td></tr>
+        <tr><td>Task 3 — Inheritance Chain</td><td>20</td><td>___</td></tr>
+        <tr><td>Task 4 — Gate Test (Sealed)</td><td>25</td><td>___</td></tr>
+        <tr class="total"><td><strong>TOTAL</strong></td><td><strong>100</strong></td><td><strong>___</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="result-block">
+      <div class="result-row"><span class="result-icon">✅</span><span class="result-text"><strong>70+</strong> → Move to Week 3</span></div>
+      <div class="result-row"><span class="result-icon">⚠️</span><span class="result-text"><strong>50–69</strong> → Review weak areas, redo Task 4</span></div>
+      <div class="result-row"><span class="result-icon">❌</span><span class="result-text"><strong>Below 50</strong> → Redo entire week</span></div>
+    </div>
+  </div>
+
+  <div class="week-nav">
+    <button class="week-nav-btn" onclick="showWeek('w1')">← Week 1</button>
+    <span class="week-nav-center">Week 2 / 8</span>
+    <button class="week-nav-btn" onclick="showWeek('w3')">Week 3 →</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ WEEK 3–8 PLACEHOLDERS ═══════════════════════════════ -->
+
+<!-- WEEKS 3-8: Condensed but complete structure -->
+<script>
+// Generate weeks 3-8 dynamically
+const weekData = {
+  w3: {
+    title: "Polymorphism, Abstraction & Generics",
+    topics: [
+      { num: "3.1", name: "Method Overloading (Compile-time Polymorphism)", questions: [
+        "What is method overloading? What can differ between overloaded methods?",
+        "What is type promotion? If you call add(5, 10.5) and have add(int,int) and add(double,double), which runs?",
+        "Can you overload by return type only? Why not?",
+        "Is overloading resolved at compile-time or runtime?"
+      ], answers: [
+        "Method overloading = multiple methods with same name but different parameter lists (number, types, or order). Return type and modifiers do NOT count.",
+        "Java promotes int to double when no exact match — add(double,double) is called with (5.0, 10.5).",
+        "No — the compiler cannot distinguish methods solely by return type because at the call site there may be no context to determine which to use.",
+        "Compile-time — the compiler picks the correct overload based on static types of arguments."
+      ]},
+      { num: "3.2", name: "Method Overriding & Runtime Polymorphism", questions: [
+        "What is the VTable (Virtual Method Table)? How does the JVM use it?",
+        "What is dynamic dispatch? When is the method resolved — compile or runtime?",
+        "What are the 4 rules for method overriding?",
+        "What is covariant return type? Give an example.",
+        "What is the difference between hiding (static methods) and overriding (instance methods)?"
+      ], answers: [
+        "A VTable is a data structure per class containing pointers to actual method implementations. At runtime the JVM looks up the actual object type's VTable to find which method to call.",
+        "Dynamic dispatch = runtime resolution of which overridden method to call based on actual object type, not the declared reference type. Resolved at runtime.",
+        "Same method name, same parameter list, same or covariant return type, access modifier must not be more restrictive than parent.",
+        "Covariant return type allows an overriding method to return a subtype of the parent's return type. E.g. Animal.clone() returns Animal; Dog.clone() can return Dog.",
+        "Overriding (instance methods): resolved at runtime — polymorphic. Hiding (static methods): resolved at compile-time based on reference type — not polymorphic."
+      ]},
+      { num: "3.3", name: "Abstract Classes", questions: [
+        "What makes a class abstract? What makes a method abstract?",
+        "Can an abstract class have a constructor? Why?",
+        "What is the Template Method pattern? How do abstract classes enable it?",
+        "If you extend an abstract class but don't implement all abstract methods, what must you do?"
+      ], answers: [
+        "A class is abstract when declared with the abstract keyword — cannot be instantiated. A method is abstract when declared with abstract and has no body — subclasses must implement it.",
+        "Yes — an abstract class can (and usually should) have a constructor. It is called via super() from the subclass constructor when a concrete subclass is instantiated.",
+        "Template Method: an abstract class defines the skeleton of an algorithm in a final method, calling abstract steps that subclasses must implement. Overall flow is fixed; details vary.",
+        "You must also declare your subclass abstract. Only a concrete class must implement all abstract methods."
+      ]},
+      { num: "3.4", name: "Interfaces (Default, Static, Private methods)", questions: [
+        "What is the difference between interface and abstract class?",
+        "What are default methods in interfaces? When were they added? Why?",
+        "What are private methods in interfaces? Why do they exist?",
+        "What is the diamond problem with default methods? How does Java resolve it?",
+        "What is a CAN-DO relationship (interface) vs IS-A relationship (abstract class)?"
+      ], answers: [
+        "Interface: cannot instantiate, only constants, no constructors, a class can implement multiple. Abstract class: cannot instantiate, can have instance fields, has constructors, single inheritance only.",
+        "Default methods were added in Java 8 — they have a method body in the interface. Added to allow adding new methods to interfaces without breaking all existing implementing classes.",
+        "Private methods in interfaces (Java 9+) allow shared helper logic between default methods without exposing it to implementing classes.",
+        "If Interface A and B both have default void hello(), a class implementing both gets a compile error. Java requires you to override hello() and explicitly choose A.super.hello() or B.super.hello().",
+        "Interface = CAN-DO capability (Printable, Comparable) — unrelated classes share behavior. Abstract class = IS-A (Vehicle for Car, Truck) — strong hierarchical relationship."
+      ]},
+      { num: "3.5", name: "Generics: Classes, Methods, Bounds, Wildcards", questions: [
+        "What is type erasure? What happens to &lt;T&gt; at runtime?",
+        "What is an upper bounded wildcard &lt;? extends T&gt;? Can you add to this list?",
+        "What is a lower bounded wildcard &lt;? super T&gt;? Can you read from this list?",
+        "What is the PECS rule (Producer Extends, Consumer Super)?",
+        "Can you create new T() inside a generic class? Why not?"
+      ], answers: [
+        "Type erasure: the &lt;T&gt; type parameter is removed at compile time; at runtime there is no &lt;T&gt;, just raw types. Generics exist only at compile time for type safety.",
+        "Upper bounded &lt;? extends T&gt;: the list can contain T or any subtype. You CANNOT add to it (compiler doesn't know the exact type). You can only read from it.",
+        "Lower bounded &lt;? super T&gt;: the list can contain T or any supertype. You CAN add T to it. Reading gives you Object (type unknown).",
+        "PECS: if a collection Produces (provides) values → use &lt;? extends T&gt;. If it Consumes (receives) values → use &lt;? super T&gt;.",
+        "No — because of type erasure, T is unknown at runtime. The compiler cannot call new T() without knowing the actual type."
+      ]}
+    ],
+    ankiCards: [
+      { q: "Static polymorphism vs dynamic polymorphism?", a: "Static = overloading, resolved at compile-time. Dynamic = overriding, resolved at runtime via VTable." },
+      { q: "What is dynamic dispatch?", a: "Runtime resolution of which overridden method to call based on actual object type, not reference type." },
+      { q: "Interface vs abstract class — key differences?", a: "Interface: multiple implementation, no state, CAN-DO. Abstract: single inheritance, can have state, IS-A." },
+      { q: "PECS rule?", a: "Producer Extends (read-only), Consumer Super (write-only)." },
+      { q: "Type erasure — what happens to &lt;T&gt; at runtime?", a: "It is removed. Generics only exist at compile time for type safety. At runtime, only raw types exist." }
+    ],
+    assessment: {
+      theoryQs: [
+        "What is the difference between overloading and overriding? [3]",
+        "What is dynamic dispatch and the VTable? How does runtime polymorphism work? [4]",
+        "What are the 4 differences between an interface and an abstract class? [4]",
+        "What 5 things does a generic class give you? What is type erasure? [4]",
+        "What is the PECS rule? Give an example of each bound. [5]"
+      ],
+      tasks: [
+        { title: "Polymorphic Payment Processing", time: "15 min", marks: 20, desc: "Create abstract Payment with processPayment(). Implement CreditCard, PayPal, Crypto. Store in Payment[]. Call processPayment() on each — observe dynamic dispatch." },
+        { title: "Interface with Default and Private Methods", time: "15 min", marks: 20, desc: "Create interface Logger with abstract log(String), default logInfo/logWarning/logError(), and private formatMessage() shared helper. Implement ConsoleLogger." },
+        { title: "Generic Repository", time: "18 min", marks: 20, desc: "Create class Repository&lt;T&gt; with add(T), T get(int index), List&lt;T&gt; getAll(), remove(int). Test with String and Integer." },
+        { title: "Gate Test — Abstract + Interface + Generics", time: "20 min", marks: 20, desc: "Build a typed event system: Event&lt;T&gt; record, EventBus&lt;T&gt; with subscribe/publish, demonstrate with String events and Integer events." }
+      ]
+    }
+  },
+  w4: {
+    title: "Collections, Optional & java.time",
+    topics: [
+      { num: "4.1", name: "ArrayList vs LinkedList vs ArrayDeque", questions: [
+        "When should you use ArrayList? LinkedList? ArrayDeque?",
+        "What is the time complexity of ArrayList.get(i), ArrayList.add(end), ArrayList.remove(middle)?",
+        "What is the Iterator pattern? Why use iterator.remove() instead of list.remove() in a loop?",
+        "What does Collections.unmodifiableList() do?"
+      ], answers: [
+        "ArrayList: random access (get by index), most common default. LinkedList: frequent insertions/deletions at middle. ArrayDeque: stack/queue operations (addFirst/removeLast).",
+        "get(i) = O(1). add(end) = O(1) amortized. remove(middle) = O(n) due to shifting.",
+        "Iterator provides a safe way to traverse and remove elements. list.remove() during a for-each loop causes ConcurrentModificationException; iterator.remove() is safe.",
+        "Returns an unmodifiable view — any attempt to add/remove/set throws UnsupportedOperationException."
+      ]},
+      { num: "4.2", name: "HashMap, HashSet, TreeMap, LinkedHashMap", questions: [
+        "How does HashMap work internally? What is a hash collision?",
+        "What is the difference between HashMap, TreeMap, and LinkedHashMap — ordering?",
+        "What is the contract between equals() and hashCode()?",
+        "What does Map.getOrDefault(), putIfAbsent(), merge(), computeIfAbsent() do?"
+      ], answers: [
+        "HashMap uses an array of buckets. Each key is hashed to a bucket index. A hash collision occurs when two keys hash to the same bucket — resolved by linked list or tree (Java 8+).",
+        "HashMap: no ordering. TreeMap: sorted by natural order or Comparator. LinkedHashMap: insertion order preserved.",
+        "If equals() returns true for two objects, they MUST have the same hashCode(). If you override equals(), you MUST override hashCode().",
+        "getOrDefault(k, def): returns value or default. putIfAbsent(k, v): only puts if key absent. merge(k, v, fn): merges existing and new value via function. computeIfAbsent(k, fn): computes value if absent."
+      ]},
+      { num: "4.3", name: "Optional", questions: [
+        "What problem does Optional solve? Why not just return null?",
+        "What are the 3 ways to create an Optional?",
+        "What is the difference between Optional.get(), orElse(), orElseGet(), orElseThrow()?",
+        "What is Optional.map()? When would you chain it?",
+        "What is the Optional anti-pattern? (where you should NOT use Optional)"
+      ], answers: [
+        "Optional makes the absence of a value explicit — the caller must handle the empty case. Returning null hides the intent and causes NullPointerExceptions when callers forget to check.",
+        "Optional.of(value) — value must not be null. Optional.ofNullable(value) — can be null. Optional.empty() — explicitly empty.",
+        "get() — throws NoSuchElementException if empty. orElse(default) — returns default value. orElseGet(supplier) — calls supplier only if empty (lazy). orElseThrow() — throws if empty.",
+        "Optional.map(fn) transforms the value if present, returning a new Optional. Chain when you need to transform and handle absence in one expression.",
+        "Don't use Optional as field types, constructor parameters, or method parameters — it's designed for return types only."
+      ]},
+      { num: "4.4", name: "java.time API", questions: [
+        "What are the 3 main date/time classes? What does each represent?",
+        "How do you add 1 month to a LocalDate?",
+        "What is Period? What is Duration?",
+        "How do you parse a date from a String? Format a date to a String?",
+        "What is ZonedDateTime? When do you need it?"
+      ], answers: [
+        "LocalDate — date only (year/month/day). LocalTime — time only. LocalDateTime — date + time, no timezone.",
+        "date.plusMonths(1) — LocalDate is immutable; this returns a new object.",
+        "Period = date-based duration (years, months, days). Duration = time-based (hours, minutes, seconds, nanos).",
+        "Parse: LocalDate.parse(\"2024-01-15\"). Custom: LocalDate.parse(str, DateTimeFormatter.ofPattern(\"dd/MM/yyyy\")). Format: date.format(DateTimeFormatter.ofPattern(\"dd MMM yyyy\")).",
+        "ZonedDateTime includes timezone information. Use when you need to handle times across timezones — e.g. scheduling, global applications."
+      ]}
+    ],
+    ankiCards: [
+      { q: "HashMap vs TreeMap vs LinkedHashMap — ordering?", a: "HashMap: no order. TreeMap: sorted. LinkedHashMap: insertion order." },
+      { q: "Optional.orElse() vs orElseGet()?", a: "orElse(val): always evaluates val. orElseGet(supplier): lazy — supplier called only if empty. Use orElseGet for expensive defaults." },
+      { q: "equals() and hashCode() contract?", a: "If equals() returns true → MUST have same hashCode(). Override both or neither." },
+      { q: "Period vs Duration?", a: "Period = date-based (years/months/days). Duration = time-based (hours/minutes/seconds)." },
+      { q: "When should you NOT use Optional?", a: "Not as field types, constructor params, or method params — only as return types." }
+    ],
+    assessment: {
+      theoryQs: [
+        "ArrayList.get(i), add(end), remove(middle) — time complexity? [3]",
+        "What is the equals()/hashCode() contract? What breaks if you violate it? [4]",
+        "What are the 3 ways to create an Optional? When do you use each? [3]",
+        "What is the difference between Optional.orElse() and orElseGet()? [2]",
+        "What is Period vs Duration? When would you use each? [3]",
+        "What are 3 useful Map methods added in Java 8+? [5]"
+      ],
+      tasks: [
+        { title: "HashMap Word Counter", time: "12 min", marks: 20, desc: "Read a hardcoded sentence. Use HashMap to count word frequencies. Print top 3 words. Handle duplicates with merge()." },
+        { title: "Optional — Safe User Lookup", time: "12 min", marks: 15, desc: "Create a User record. Store users in a List. Write findByName(String) returning Optional&lt;User&gt;. Chain with map() and orElseThrow()." },
+        { title: "LocalDate Task Manager", time: "15 min", marks: 20, desc: "Add LocalDate dueDate to Task. Filter overdue tasks (before today). Sort by due date. Format output using DateTimeFormatter." },
+        { title: "Gate Test — Collections Pipeline", time: "20 min", marks: 25, desc: "Given a list of Order records (id, product, price, date), use HashMap to group by product, find most expensive per product, filter orders in last 30 days, print summary." }
+      ]
+    }
+  },
+  w5: {
+    title: "Streams, Lambdas & Collectors",
+    topics: [
+      { num: "5.1", name: "Lambda Expressions & Functional Interfaces", questions: [
+        "What is a lambda expression? What is the syntax?",
+        "What are the 4 core functional interfaces? (Predicate, Function, Consumer, Supplier)",
+        "What is method reference? Show all 4 types.",
+        "What is a closure in lambdas? What can lambdas capture from the enclosing scope?"
+      ], answers: [
+        "A lambda is an anonymous function — (params) -> body. E.g. (x, y) -> x + y. Shorthand for implementing a functional interface.",
+        "Predicate&lt;T&gt;: T → boolean. Function&lt;T,R&gt;: T → R. Consumer&lt;T&gt;: T → void. Supplier&lt;T&gt;: () → T.",
+        "Static method: ClassName::methodName. Instance method on instance: instance::method. Instance method on type: ClassName::method. Constructor: ClassName::new.",
+        "Lambdas can capture local variables but they must be effectively final (not modified after capture). They can also capture this and instance fields."
+      ]},
+      { num: "5.2", name: "Stream API — Intermediate & Terminal Operations", questions: [
+        "What is a Stream? Is it a data structure?",
+        "What are 5 intermediate operations?",
+        "What are 5 terminal operations?",
+        "What is lazy evaluation in streams? Why does it matter?",
+        "What is the difference between map() and flatMap()?"
+      ], answers: [
+        "A Stream is a pipeline of operations on a sequence of elements — not a data structure. It doesn't store data; it processes it.",
+        "filter(), map(), sorted(), distinct(), limit(n), skip(n), peek().",
+        "collect(), forEach(), count(), reduce(), findFirst(), findAny(), anyMatch(), allMatch(), noneMatch(), toList().",
+        "Intermediate operations are lazy — they don't execute until a terminal operation is called. This allows short-circuiting (e.g. findFirst stops after first match).",
+        "map(): one-to-one transformation (one element → one element). flatMap(): one-to-many (one element → a stream of elements, then flattened)."
+      ]},
+      { num: "5.3", name: "Collectors", questions: [
+        "What does Collectors.groupingBy() do?",
+        "What does Collectors.joining() do?",
+        "What does Collectors.partitioningBy() do?",
+        "What does Collectors.counting() do?",
+        "How do you collect to a Map with custom keys and values?"
+      ], answers: [
+        "groupingBy(classifier) groups elements into a Map&lt;K, List&lt;T&gt;&gt; by the classifier function.",
+        "joining(delimiter, prefix, suffix) concatenates strings with a delimiter and optional prefix/suffix.",
+        "partitioningBy(predicate) splits into a Map&lt;Boolean, List&lt;T&gt;&gt; — true group and false group.",
+        "counting() counts the number of elements in each group — used as downstream collector with groupingBy.",
+        "Collectors.toMap(keyMapper, valueMapper) — e.g. .collect(toMap(Person::getName, Person::getAge))."
+      ]}
+    ],
+    ankiCards: [
+      { q: "4 core functional interfaces?", a: "Predicate&lt;T&gt;: T→boolean. Function&lt;T,R&gt;: T→R. Consumer&lt;T&gt;: T→void. Supplier&lt;T&gt;: ()→T." },
+      { q: "map() vs flatMap()?", a: "map(): 1-to-1 transformation. flatMap(): 1-to-many, then flattened into a single stream." },
+      { q: "Why are streams lazy?", a: "Intermediate operations don't execute until a terminal operation is called — enables short-circuiting and optimized pipelines." },
+      { q: "4 types of method references?", a: "ClassName::staticMethod, instance::method, ClassName::instanceMethod, ClassName::new (constructor ref)." },
+      { q: "Collectors.groupingBy() return type?", a: "Map&lt;K, List&lt;T&gt;&gt; where K is the grouping key." }
+    ],
+    assessment: {
+      theoryQs: [
+        "What are the 4 core functional interfaces and their signatures? [4]",
+        "What is lazy evaluation in streams? What does short-circuiting mean? [3]",
+        "What is the difference between map() and flatMap()? Give an example of each. [4]",
+        "What does Collectors.groupingBy() return? How do you add a downstream collector? [4]",
+        "What can lambdas capture from their enclosing scope? [3]",
+        "What are the 4 types of method references? [2]"
+      ],
+      tasks: [
+        { title: "Stream Pipeline — Task Statistics", time: "15 min", marks: 20, desc: "Given a list of Task records (name, status, priority). Use streams to: count by status, find highest priority, list all pending sorted by name, get average priority." },
+        { title: "Collectors — Order Analysis", time: "15 min", marks: 20, desc: "Given List&lt;Order&gt; (product, category, price). Group by category. Find most expensive per category. Get total revenue per category. Use Collectors.groupingBy() with downstream." },
+        { title: "FlatMap — Multi-line File Words", time: "12 min", marks: 15, desc: "Given List&lt;String&gt; where each string is a sentence. Use flatMap to get all words. Filter words &gt; 4 chars. Sort. Deduplicate. Collect to List." },
+        { title: "Gate Test — Stream Pipeline from scratch", time: "20 min", marks: 25, desc: "Given Employee(name, dept, salary, years) records. Stream pipeline: filter 5+ years, group by dept, per-dept: avg salary, count, top earner. Print formatted report." }
+      ]
+    }
+  },
+  w6: {
+    title: "Thread Safety & Concurrent Collections",
+    topics: [
+      { num: "6.1", name: "Threads & Runnable", questions: [
+        "What is a thread? What is a process? What is the difference?",
+        "What are the 3 ways to create a thread in Java?",
+        "What is the thread lifecycle? (New, Runnable, Running, Blocked, Terminated)",
+        "What is a race condition? Give a concrete example."
+      ], answers: [
+        "A process is an independent program with its own memory. A thread is a lightweight unit of execution within a process — shares memory with other threads in the same process.",
+        "Extend Thread class (override run()). Implement Runnable (pass to Thread). Use ExecutorService (submit Runnable/Callable).",
+        "New → Runnable (start() called) → Running (scheduler picks it up) → Blocked/Waiting → Runnable → Terminated (run() completes).",
+        "A race condition is when the result depends on the timing/order of threads. E.g. two threads both read counter=5, both increment, both write 6 — expected 7."
+      ]},
+      { num: "6.2", name: "Synchronization & Locks", questions: [
+        "What does synchronized do on a method? On a block?",
+        "What is a monitor/intrinsic lock?",
+        "What is the problem with synchronizing too much? Too little?",
+        "What is ReentrantLock? How is it different from synchronized?"
+      ], answers: [
+        "synchronized on a method: acquires the object's monitor lock before executing, releases after. On a block: synchronized(object) { } — acquires lock on specified object.",
+        "Every Java object has an intrinsic lock (monitor). synchronized acquires this lock for the duration of the synchronized block/method.",
+        "Too much synchronization → deadlock, performance bottleneck, thread starvation. Too little → race conditions, data corruption.",
+        "ReentrantLock is explicit — you must lock() and unlock() manually. Advantages: tryLock(), lockInterruptibly(), fairness policy, can use with Condition for fine-grained control."
+      ]},
+      { num: "6.3", name: "Atomic Classes & ConcurrentCollections", questions: [
+        "What is AtomicInteger? Why is it faster than synchronized int?",
+        "What is ConcurrentHashMap? How is it different from synchronized HashMap?",
+        "What is a CopyOnWriteArrayList? When would you use it?",
+        "What does volatile keyword do?"
+      ], answers: [
+        "AtomicInteger uses CPU compare-and-swap (CAS) instructions — no locking needed. Much faster than synchronized because CAS is a single hardware instruction.",
+        "ConcurrentHashMap uses segment-level locking (in Java 8+, uses CAS + synchronized on individual buckets). Allows concurrent reads without locking and fine-grained write locking.",
+        "CopyOnWriteArrayList: on every write, copies the entire array. Great for read-heavy, write-rare scenarios — iterators never see ConcurrentModificationException.",
+        "volatile guarantees visibility — a write to a volatile variable is immediately visible to all other threads. It does NOT provide atomicity (not a substitute for synchronized)."
+      ]}
+    ],
+    ankiCards: [
+      { q: "What is a race condition?", a: "When program result depends on timing/order of threads. E.g. two threads read same value, both modify, both write — one update lost." },
+      { q: "AtomicInteger vs synchronized int — why faster?", a: "AtomicInteger uses CPU CAS (compare-and-swap) — a single hardware instruction. No OS-level locking needed." },
+      { q: "ConcurrentHashMap vs synchronized HashMap?", a: "ConcurrentHashMap: fine-grained bucket locking, concurrent reads without lock. synchronized HashMap: one lock for entire map." },
+      { q: "volatile — what does it guarantee?", a: "Visibility: writes immediately visible to all threads. Does NOT guarantee atomicity." },
+      { q: "ReentrantLock advantage over synchronized?", a: "tryLock(), lockInterruptibly(), fairness policy, Condition objects for fine-grained waiting/signaling." }
+    ],
+    assessment: {
+      theoryQs: [
+        "What is a race condition? Give a concrete example with a counter. [3]",
+        "What does synchronized guarantee? What is a monitor lock? [3]",
+        "What is the difference between AtomicInteger and synchronized int? [3]",
+        "What is ConcurrentHashMap? How does it differ from Collections.synchronizedMap()? [4]",
+        "What does volatile guarantee? What does it NOT guarantee? [3]",
+        "What is a deadlock? Give conditions that cause it. [4]"
+      ],
+      tasks: [
+        { title: "Thread Safety — Counter Demonstration", time: "15 min", marks: 20, desc: "Create a shared counter. Run 10 threads each incrementing 1000 times. Show the race condition. Fix with synchronized, then with AtomicInteger. Compare results." },
+        { title: "ConcurrentHashMap — Multi-threaded Word Count", time: "15 min", marks: 20, desc: "Process a large string with 5 threads concurrently, each processing a segment. Merge word counts into a ConcurrentHashMap using merge(). Print top 5 words." },
+        { title: "Thread Pool with ExecutorService", time: "12 min", marks: 15, desc: "Create a fixed thread pool of 4. Submit 20 tasks each printing their task number and thread name. Shutdown and await termination. Show tasks run in parallel." },
+        { title: "Gate Test — Thread-safe TaskManager", time: "20 min", marks: 25, desc: "Create thread-safe TaskManager: ConcurrentHashMap storage, AtomicInteger for IDs, synchronized add/remove, multi-threaded test with 3 threads adding/removing simultaneously." }
+      ]
+    }
+  },
+  w7: {
+    title: "NIO.2, Modules & Architecture",
+    topics: [
+      { num: "7.1", name: "NIO.2 File API (java.nio.file)", questions: [
+        "What is the difference between File (old) and Path (new NIO.2)?",
+        "How do you read all lines from a file? Write all lines?",
+        "What does Files.walk() do? What is the difference from Files.list()?",
+        "How do you handle file operations safely? (try-with-resources)"
+      ], answers: [
+        "File: old API, OS-specific paths, limited error handling, no symbolic link support. Path: immutable, platform-independent, rich API via Files class, supports symbolic links and attributes.",
+        "Read: Files.readAllLines(path) or Files.lines(path) (stream). Write: Files.write(path, lines) or Files.writeString(path, content).",
+        "Files.walk(path) — recursively traverses all files and directories in subtree (all depths). Files.list(path) — only immediate children (one level).",
+        "Use try-with-resources for streams: try (Stream&lt;Path&gt; files = Files.walk(dir)) { ... } — ensures the stream is closed and all file handles released."
+      ]},
+      { num: "7.2", name: "Exception Handling Patterns", questions: [
+        "What is the difference between checked and unchecked exceptions?",
+        "What does try-with-resources do? What interface must the resource implement?",
+        "What is a multi-catch block? Show the syntax.",
+        "When should you throw vs catch an exception?"
+      ], answers: [
+        "Checked: must be declared in method signature (throws) or caught — subclasses of Exception but not RuntimeException. Unchecked: RuntimeException subclasses — no declaration required.",
+        "try-with-resources automatically closes resources when the try block exits (normally or via exception). The resource must implement AutoCloseable (or Closeable).",
+        "catch (IOException | SQLException e) { } — catches multiple exception types in one block. The variable is effectively final.",
+        "Throw when you detect an invalid state the caller should handle. Catch at the layer where you can meaningfully handle or recover from the exception."
+      ]},
+      { num: "7.3", name: "Packages & Modules", questions: [
+        "What is a Java package? What is its purpose?",
+        "What is the Java Module System (JPMS)? What file defines a module?",
+        "What does requires and exports mean in module-info.java?",
+        "What is the difference between classpath and modulepath?"
+      ], answers: [
+        "A package is a namespace that organizes related classes. Prevents name conflicts, controls access, provides a logical grouping.",
+        "JPMS (Java 9+) groups packages into named modules with explicit dependencies and API boundaries. Defined in module-info.java at the root of the module.",
+        "requires other.module — this module depends on that module. exports my.package — makes that package accessible to other modules.",
+        "Classpath: traditional mechanism, all classes visible to all other classes. Modulepath: strict visibility — only exported packages of required modules are accessible."
+      ]}
+    ],
+    ankiCards: [
+      { q: "Files.walk() vs Files.list()?", a: "walk(): recursive, all depths. list(): immediate children only (one level)." },
+      { q: "Checked vs unchecked exceptions?", a: "Checked: must declare/catch (IOException, SQLException). Unchecked: RuntimeException — no declaration needed." },
+      { q: "try-with-resources — what interface required?", a: "AutoCloseable (or Closeable). close() is called automatically when the try block exits." },
+      { q: "requires vs exports in module-info.java?", a: "requires: this module depends on that module. exports: makes this package accessible to other modules." },
+      { q: "Files.readAllLines() vs Files.lines()?", a: "readAllLines(): loads all into List — memory. Files.lines(): returns a Stream — lazy, use try-with-resources." }
+    ],
+    assessment: {
+      theoryQs: [
+        "What are 4 differences between File and Path? [4]",
+        "What does try-with-resources do? What interface must the resource implement? [3]",
+        "What is the difference between checked and unchecked exceptions? Give an example of each. [4]",
+        "What does module-info.java contain? What do requires and exports mean? [4]",
+        "What is Files.walk() vs Files.list()? [2]",
+        "What is the difference between classpath and modulepath? [3]"
+      ],
+      tasks: [
+        { title: "File Operations — Task Persistence", time: "15 min", marks: 20, desc: "Write tasks to a file (one per line). Read tasks back. Handle FileNotFoundException. Use try-with-resources for all streams. Implement save() and load() methods." },
+        { title: "Files.walk() — Directory Scanner", time: "12 min", marks: 15, desc: "Walk a directory tree. Count .java files. Print each file's name, size, and last modified date. Sort results by size descending." },
+        { title: "Exception Hierarchy", time: "12 min", marks: 15, desc: "Create custom exceptions: AppException (checked), ValidationException extends AppException, NotFoundException extends AppException. Demonstrate multi-catch, finally, try-with-resources." },
+        { title: "Gate Test — Full File-backed Application", time: "20 min", marks: 30, desc: "TaskManager with full file persistence: load on startup, save on every change, handle missing file gracefully, proper package structure (com.example.tasks), separate service and model classes." }
+      ]
+    }
+  },
+  w8: {
+    title: "Virtual Threads & Structured Concurrency",
+    topics: [
+      { num: "8.1", name: "Platform Threads vs Virtual Threads", questions: [
+        "What is the fundamental difference between a platform thread and a virtual thread?",
+        "How much memory does a platform thread use? A virtual thread?",
+        "What problem does blocking I/O cause with platform threads? How do virtual threads solve it?",
+        "When were virtual threads added to Java? (JEP 444, Java 21)"
+      ], answers: [
+        "A platform thread is a wrapper around an OS thread — heavyweight, limited by OS. A virtual thread is managed by the JVM, not mapped 1:1 to OS threads — extremely lightweight.",
+        "Platform thread: ~2MB stack. Virtual thread: ~1KB. You can have millions of virtual threads.",
+        "Blocking I/O blocks the OS thread — wastes a platform thread doing nothing. Virtual threads unmount from the carrier thread when blocking, freeing it to run other virtual threads.",
+        "Virtual threads standardized in Java 21 (JEP 444), previewed in Java 19-20."
+      ]},
+      { num: "8.2", name: "Virtual Threads: Creation & Basics", questions: [
+        "How much memory does a virtual thread use? (~1KB)",
+        "What is a carrier thread? How many carrier threads are there?",
+        "What happens when a virtual thread calls Thread.sleep()?",
+        "What does mounting and unmounting mean?",
+        "Difference between Thread.startVirtualThread() and Thread.ofVirtual().start()?"
+      ], answers: [
+        "A virtual thread uses approximately 1KB of memory — you can create millions of them.",
+        "A carrier thread is a platform thread that actually runs virtual threads. The JVM maintains a pool — typically one per CPU core.",
+        "When a virtual thread calls Thread.sleep(), it is unmounted from the carrier thread. The carrier is freed to run other virtual threads. The virtual thread is remounted when sleep completes.",
+        "Mounting — a virtual thread is assigned to a carrier thread to execute. Unmounting — detached from carrier when blocking, so carrier can run other virtual threads.",
+        "Thread.startVirtualThread(runnable) — quick convenience method. Thread.ofVirtual().name(\"name\").start(runnable) — builder pattern allowing name and other properties."
+      ]},
+      { num: "8.3", name: "Virtual Thread Best Practices", questions: [
+        "When should you NOT use virtual threads?",
+        "Why is synchronized on a virtual thread problematic?",
+        "What should you use instead of synchronized in virtual thread code?",
+        "What is thread pinning?"
+      ], answers: [
+        "Do not use virtual threads for CPU-intensive tasks — they're always computing, never blocking, so they never unmount. Carrier threads are never freed.",
+        "When a virtual thread enters a synchronized block, it becomes pinned — it cannot unmount from the carrier thread even when blocking.",
+        "Use ReentrantLock instead — it allows virtual threads to unmount during blocking waits.",
+        "Thread pinning is when a virtual thread is stuck to its carrier thread and cannot unmount — caused by synchronized blocks or certain native method calls."
+      ]},
+      { num: "8.4", name: "Structured Concurrency & Scoped Values", questions: [
+        "What problem does structured concurrency solve over plain threads?",
+        "What is StructuredTaskScope? What does ShutdownOnFailure do?",
+        "What is ScopedValue? How is it different from ThreadLocal?",
+        "How do child virtual threads inherit ScopedValues?"
+      ], answers: [
+        "Plain threads have no guaranteed lifetime relationship — a spawned thread can outlive its parent. Structured concurrency ensures child tasks cannot outlive their scope.",
+        "StructuredTaskScope is a scope within which you fork subtasks. ShutdownOnFailure: if any task fails, all others are cancelled and exception propagated.",
+        "ScopedValue is immutable (once bound, cannot change within scope), auto-cleaned up (no memory leaks), works naturally with virtual threads. ThreadLocal is mutable, manual cleanup, memory leak risk.",
+        "Child virtual threads spawned within a StructuredTaskScope automatically inherit all ScopedValue bindings from the parent — no explicit passing needed."
+      ]}
+    ],
+    ankiCards: [
+      { q: "Platform thread vs virtual thread — memory?", a: "Platform ~2MB; Virtual ~1KB. Can have millions of virtual threads." },
+      { q: "When should you NOT use virtual threads?", a: "CPU-intensive tasks — always computing, never blocking, carrier threads aren't freed. No benefit." },
+      { q: "What happens when virtual thread calls Thread.sleep()?", a: "It's unmounted from carrier thread. Carrier freed to run other virtual threads. Remounted after sleep." },
+      { q: "StructuredTaskScope.ShutdownOnFailure vs ShutdownOnSuccess?", a: "ShutdownOnFailure: any task fails → cancel all. ShutdownOnSuccess: first task succeeds → cancel all." },
+      { q: "ScopedValue vs ThreadLocal — key differences?", a: "ScopedValue: immutable, auto-cleans, works with virtual threads. ThreadLocal: mutable, manual cleanup, memory leak risk." }
+    ],
+    assessment: {
+      theoryQs: [
+        "What is the fundamental difference between platform and virtual threads? Memory size of each? [4]",
+        "Why should you not use synchronized with virtual threads? What should you use instead? [3]",
+        "What is thread pinning? What causes it? [3]",
+        "What is StructuredTaskScope? What is ShutdownOnFailure vs ShutdownOnSuccess? [4]",
+        "What problem does ScopedValue solve that ThreadLocal doesn't? [3]",
+        "When would you still use a fixed thread pool instead of virtual threads? [3]"
+      ],
+      tasks: [
+        { title: "Virtual Thread Benchmark", time: "15 min", marks: 15, desc: "Create 10,000 virtual threads each sleeping 100ms. Time the total duration. Then do the same with 10,000 platform threads in a fixed pool of 200. Compare: virtual threads should complete in ~100ms." },
+        { title: "Structured Concurrency — Parallel API Calls", time: "18 min", marks: 20, desc: "Simulate 3 API calls (Thread.sleep). Use StructuredTaskScope.ShutdownOnFailure. Fork all 3. Join and throwIfFailed. Collect results. Total time should equal slowest, not sum." },
+        { title: "Scoped Values — Request Context", time: "15 min", marks: 15, desc: "Create ScopedValue for user ID and trace ID. Bind them per request. Spawn subtasks via StructuredTaskScope — verify they inherit the scoped values. Show value is gone after scope." },
+        { title: "Gate Test — Concurrent File Processor", time: "25 min", marks: 30, desc: "Process 5 text files concurrently with virtual threads via StructuredTaskScope. Count words per file. Merge results. Find top 5 words globally. Use ScopedValue for job ID. Write results to file." }
+      ]
+    }
+  }
+};
+
+function buildWeek(id, data) {
+  const prevMap = { w3:'w2', w4:'w3', w5:'w4', w6:'w5', w7:'w6', w8:'w7' };
+  const nextMap = { w3:'w4', w4:'w5', w5:'w6', w6:'w7', w7:'w8' };
+  const wNum = id.replace('w','');
+  
+  let html = `<div class="study-section">
+    <div class="section-header">
+      <span class="section-badge">Week ${wNum} · Study Guide</span>
+      <h2 class="section-title">${data.title}</h2>
+      <div class="section-divider"></div>
+    </div>`;
+  
+  data.topics.forEach(t => {
+    const tid = `t${id}_${t.num.replace('.','_')}`;
+    html += `<div class="topic" id="${tid}">
+      <div class="topic-header" onclick="toggleTopic('${tid}')">
+        <div class="topic-title-row"><span class="topic-num">${t.num}</span><span class="topic-name">${t.name}</span></div>
+        <span class="topic-chevron">▼</span>
+      </div>
+      <div class="topic-body">
+        <div class="concept-section">
+          <div class="sub-label">Concept Checks</div>
+          <ol class="concept-list">
+            ${t.questions.map(q => `<li>${q}</li>`).join('')}
+          </ol>
+          <div class="answer-block">
+            <button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answers</button>
+            <div class="answer-content">
+              ${t.answers.map((a,i) => `<p><span class="answer-num">${i+1}.</span> ${a}</p>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+  
+  html += `</div>
+  <div class="anki-section">
+    <div class="section-header">
+      <span class="section-badge">Anki Cards</span>
+      <h2 class="section-title">Week ${wNum} Flashcards</h2>
+    </div>
+    <p class="anki-intro">Click any card to reveal the answer.</p>
+    <div class="anki-deck">
+      ${data.ankiCards.map(c => `
+      <div class="anki-card" onclick="this.classList.toggle('flipped')">
+        <div class="anki-inner">
+          <div class="anki-front"><div class="anki-tag">QUESTION</div><div class="anki-q">${c.q}</div><div class="anki-hint">tap to flip →</div></div>
+          <div class="anki-back"><div class="anki-tag">ANSWER</div><div class="anki-a">${c.a}</div><div class="anki-hint">tap to flip back</div></div>
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>
+  <div class="assessment-section">
+    <div class="assessment-header">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:8px;letter-spacing:2px">WEEK ${wNum} · ASSESSMENT</div>
+      <div class="assessment-title">Gate Test — ${data.title}</div>
+    </div>
+    <div class="assessment-rules"><p>🚫 Close ALL notes. Set a timer. Grade yourself honestly.</p><p class="pass-mark">Pass mark: 70/100</p></div>
+    <div class="theory-section">
+      <div class="theory-header"><span class="theory-badge">Part A</span><span class="theory-title">Theory Questions</span><span class="marks-badge">[20 marks]</span></div>
+      <div class="theory-body">
+        ${data.assessment.theoryQs.map((q,i) => `<div class="theory-q"><span class="q-num">${i+1}</span><span>${q}</span></div>`).join('')}
+      </div>
+    </div>
+    ${data.assessment.tasks.map((t,i) => `
+    <div class="coding-task">
+      <div class="coding-task-header">
+        <span class="task-badge">Task ${i+1}</span>
+        <span class="task-title">${t.title}</span>
+        <span class="time-badge">⏱ ${t.time}</span>
+        <span class="marks-badge">[${t.marks} marks]</span>
+      </div>
+      <div class="coding-task-body"><p class="task-desc">${t.desc}</p>
+        <div class="answer-block"><button class="answer-toggle" onclick="toggleAnswer(this)"><span class="icon">▶</span> Show Answer</button>
+          <div class="answer-content"><p style="color:var(--text3);font-style:italic">Attempt this task in IntelliJ first. Refer to the week's study topics and concept checks for guidance.</p></div>
+        </div>
+      </div>
+    </div>`).join('')}
+    <table class="score-table">
+      <thead><tr><th>Part</th><th>Max</th><th>Your Score</th></tr></thead>
+      <tbody>
+        <tr><td>Part A — Theory</td><td>20</td><td>___</td></tr>
+        ${data.assessment.tasks.map((t,i) => `<tr><td>Task ${i+1} — ${t.title}</td><td>${t.marks}</td><td>___</td></tr>`).join('')}
+        <tr class="total"><td><strong>TOTAL</strong></td><td><strong>100</strong></td><td><strong>___</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="result-block">
+      <div class="result-row"><span class="result-icon">✅</span><span class="result-text"><strong>70+</strong> → ${wNum === '8' ? 'Curriculum complete! Push to GitHub. Start applying.' : `Move to Week ${parseInt(wNum)+1}`}</span></div>
+      <div class="result-row"><span class="result-icon">⚠️</span><span class="result-text"><strong>50–69</strong> → Review weak areas, redo final task</span></div>
+      <div class="result-row"><span class="result-icon">❌</span><span class="result-text"><strong>Below 50</strong> → Redo entire week</span></div>
+    </div>
+  </div>
+  <div class="week-nav">
+    <button class="week-nav-btn" onclick="showWeek('${prevMap[id]}')">← Week ${parseInt(wNum)-1}</button>
+    <span class="week-nav-center">Week ${wNum} / 8</span>
+    ${nextMap[id] ? `<button class="week-nav-btn" onclick="showWeek('${nextMap[id]}')">Week ${parseInt(wNum)+1} →</button>` : `<button class="week-nav-btn" disabled>Complete! 🎉</button>`}
+  </div>`;
+  
+  return html;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  Object.entries(weekData).forEach(([id, data]) => {
+    const section = document.getElementById(id);
+    if (section) section.innerHTML = buildWeek(id, data);
+  });
+});
+</script>
+
+<!-- ═══════════════════════════════ WEEK PLACEHOLDERS ═══════════════════════════════ -->
+<section class="week-section" id="w3"></section>
+<section class="week-section" id="w4"></section>
+<section class="week-section" id="w5"></section>
+<section class="week-section" id="w6"></section>
+<section class="week-section" id="w7"></section>
+<section class="week-section" id="w8"></section>
+
+<!-- ═══════════════════════════════ SCRIPTS ═══════════════════════════════ -->
+<script>
+// ── WEEK NAVIGATION ──
+function showWeek(id) {
+  document.querySelectorAll('.week-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+  
+  const section = document.getElementById(id);
+  if (section) {
+    section.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  
+  const tabMap = { home: 0, w1: 1, w2: 2, w3: 3, w4: 4, w5: 5, w6: 6, w7: 7, w8: 8 };
+  const tabs = document.querySelectorAll('.week-tab');
+  if (tabs[tabMap[id]]) tabs[tabMap[id]].classList.add('active');
+}
+
+// ── THEME ──
+let dark = true;
+function toggleTheme() {
+  dark = !dark;
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  document.getElementById('themeBtn').textContent = dark ? '🌙' : '☀️';
+}
+
+// ── TOPIC TOGGLE ──
+function toggleTopic(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('open');
+}
+
+// ── ANSWER TOGGLE ──
+function toggleAnswer(btn) {
+  btn.classList.toggle('open');
+  const content = btn.nextElementSibling;
+  if (content) content.classList.toggle('open');
+}
+
+// ── DRILL TOGGLE ──
+function toggleDrill(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('open');
+}
+
+// ── WARMUP CHECK ──
+function toggleCheck(el) {
+  el.classList.toggle('done');
+  el.textContent = el.classList.contains('done') ? '✓' : '';
+}
+</script>
+</body>
+</html>
